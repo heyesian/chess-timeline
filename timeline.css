@@ -1,0 +1,429 @@
+:root {
+	--palette-bg: #102b39;
+	--palette-text: #ffffff;
+	--palette-timeline: skyblue;
+	--palette-timeline-alt: dodgerblue;
+	--palette-section-header: cornflowerblue;
+	--palette-period1: #b77635;
+	--palette-period2: #a2492f;
+	--body-text: "Josefin Sans", sans-serif;
+	--date-text: "Spectral", serif;
+	--palette-odd: #b77635;
+	--palette-even: #a2492f;
+}
+
+body {
+	background-color: var(--palette-bg);
+	padding: 1%;
+	
+	counter-reset: footnote;
+}
+
+body > p {
+	margin-left:10vw;
+	margin-right:4vw;
+}
+
+section.introduction, section#footnotes {
+	width:80%;
+	padding-left:10%;
+}
+
+section#footnotes {
+	column-count:2;
+	min-height: 80vh;
+}
+
+span.booktitle {
+	font-style: italic;
+}
+
+a {
+	color: var(--palette-text);
+	text-decoration: underline dotted 1px;
+}
+
+p#version {
+	opacity: 0.202;
+	font-size: 1.55vw;
+	float:right;
+}
+
+h1, h2, h3 {
+	font-family: var(--body-text);
+	font-weight: 500;
+	font-size: 3.76vw;
+	line-height: 1;
+	color: var(--palette-text);
+	
+	margin:8px 0 0 0;
+}
+
+h2 {
+	text-align: right;
+}
+
+div.fact h2 {
+	text-align: left; 
+	font-weight: 700;
+	font-style: italic;
+	margin-left: 31%;
+	font-size: 1.6vw;
+	
+}
+
+div.fact h3 {
+	font-size: 1.2vw;
+	margin-bottom: 0;
+	font-style:italic;
+	text-align:left;
+	margin-left: 31%;
+	font-family: var(--date-text);
+	font-weight: 700;
+}
+
+div.entry h2 {
+	line-height: 1.4;
+}
+
+section#footnotes h2 {
+	font-size: 1.6vw;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+section#footnotes p:first-child {
+	margin-top: 0;
+}
+
+div.pattern p:first-of-type, div.fact p:first-of-type {
+	margin-top: 0;
+}
+
+ul, ol {
+	margin: 0;
+}
+
+h3 {
+	font-weight: 200;
+	font-size: 1.88vw;
+	color: var(--palette-text);
+	text-align: center;
+}
+
+p, li, blockquote {
+	font-family: var(--body-text);
+	font-weight: 300;
+	line-height: 1.2;
+	color: var(--palette-text);
+	text-align: justify;
+	font-size: 1.6vw;
+}
+
+blockquote {
+	color: skyblue;
+	margin: 0 5vw;
+}
+
+section#footnotes p.notice {
+	margin: 20px auto;
+	text-align: center;
+	font-weight: 400;
+	font-size: 0.8vw;
+	column-span: all;
+}
+
+section#footnotes h2, section#footnotes p, section#footnotes li {
+	font-size: 0.8vw;
+	text-align:justify;
+}
+
+div.figure div p, div.fact div.figure p {
+	font-size: 1vw;
+	text-align: left;
+	width: 20vw;
+	line-height: 1.1;
+	font-weight: 300;
+	margin: 0;
+}
+
+div.figure div:first-child {
+	margin-top: 10vh;
+}
+
+div.fact div.figure {
+	width:33%;
+	float:left;
+}
+
+.fact p, .fact h2 {
+	font-style: italic;
+	margin-top: 0.5%;
+	margin-bottom: 1.5%;
+	
+	font-family: var(--date-text);
+}
+
+.fact p {
+	font-size: 1.2vw;
+}
+
+.fact p em {
+	font-style: normal;
+}
+
+.footnote {
+	text-decoration: underline dashed 1px;
+}
+
+.increment {
+	counter-increment: footnote;
+}
+
+.footnote::after {
+
+	content: '' counter(footnote) '';
+	vertical-align: super;
+	font-size:60%;
+}
+
+div.label div {
+	display: flex;
+	overflow: hidden;
+	height: 100%;
+	justify-content: center; /*horizontally*/
+	align-items: center; /*vertically*/
+}
+
+div.label div h2 {
+	
+	transform: rotate(-90deg);
+	white-space: nowrap;
+	margin: 0;
+	
+	font-size: 3.13vw;
+}
+
+div.odd {
+	background-color: var(--palette-odd);
+}
+
+div.first {
+	background: linear-gradient(rgba(183,118,53,0), rgba(183,118,53,100) 20vh);
+}
+
+div.even {
+	background-color: var(--palette-even);
+}
+
+div.pattern p {
+	margin-left: 3vw;
+	margin-right: 1vw;
+}
+
+div.fact p {
+	margin-left: 31%;
+}
+
+div.pattern p.date, div.fact p.date {
+	margin:auto auto 0 1%;
+	font-size: 1.28vw;
+	
+	font-family: var(--date-text);
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.set {
+	display: flex; 
+	justify-content: flex-end;
+	width: 100%;
+	padding-right:2%;
+	margin-bottom:1vh;
+}
+
+img.chessmen {
+	width: 32.8vw;
+	max-height: 16.8vw;
+}
+
+.figure img {
+	width: 20vw;
+}
+
+div.aside {
+	background-color: var(--palette-timeline);
+	color: var(--palette-text);
+	
+	font-style: italic;
+	font-family: var(--date-text);
+	font-size: 1.5vw;
+	font-weight: 200;
+	
+	margin: 25px auto;
+	width: 15vw;
+	padding: 0.5vw;
+}
+
+/* horizontal lines */
+
+.pattern hr, .fact hr {
+	margin: 0;
+}
+
+.pattern hr
+{
+	border: 0.1vw solid var(--palette-timeline);
+}
+
+.fact hr
+{
+	border: 0.1vw solid var(--palette-timeline-alt);
+}
+
+.pattern .stopper {
+	background-color: var(--palette-timeline);
+}
+
+.fact .stopper {
+	background-color: var(--palette-timeline-alt);
+}
+	
+.stopper {
+	width: 1.6vw;
+	height: 1.6vw;
+	display: block;
+	clip-path: circle(49%);
+	float:right;
+	margin-top:-0.9vw;
+	margin-right: -0.8vw;
+}
+
+/* timeline structure CSS */
+
+#timeline {
+	width: 80vw;
+	display: flex;
+	flex-direction: column;
+}
+
+
+div.period { 
+	/* each period has one div.label (an era, e.g. ancient history) and one div.features */
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+div.label {
+	flex: 0 0 10%;
+	box-sizing: border-box;
+	border-right: 0.5vw solid var(--palette-timeline);
+	padding: 1%;
+	width: 10%;
+}
+
+div.features {
+	/* each div.features 1 or more div.entry-s. */
+	flex: 0 0 90%;
+
+	display: flex;
+	flex-direction: column;
+}
+
+div.entry {
+	/* each div.entry has either a div.pattern and a div.figure OR a div.fact */
+	
+	width:100%;
+	
+	display: flex;
+	flex-direction: row;
+}
+
+div.pattern {
+	flex: 0 0 67%;
+}
+
+div.figure {
+	flex: 0 0 33%;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	align-items: center;
+	justify-content:center;
+}
+
+div.fact {
+	flex: 0 0 100%;
+	opacity: 75%;
+}
+
+div.fact, div.pattern {
+	padding-top: 3vw;
+}
+
+/* section headers 
+
+#timeline h1 {
+	flex: 0 0 90.55%;
+	width: 90.55%;
+	align-self: flex-end;
+	box-sizing: border-box;
+
+	border-left: 0.5vw solid var(--palette-timeline);
+	background-color: var(--palette-section-header);
+	
+	padding: 2vh 0 1vh 2.3vw;
+}
+*/
+div.features h1 {
+	flex: 0 0 100%;
+	width: 100%;
+	align-self: flex-end;
+	box-sizing: border-box;
+
+	background-color: var(--palette-section-header);
+	
+	padding: 2vh 0 1vh 2.3vw;
+}
+
+
+/* progress bar */
+#progress-bar {
+	height: 15px;
+	position: fixed;
+	top:0;
+	left: 0;
+	background-color: skyblue;
+	width:100%;
+	transform: scaleX(0); 
+	
+	transform-origin: left;
+	/*transition: transform 0.1s linear;*/
+	transition: none;
+}
+
+/* at time of writing, firefox and safari do not support animation-timeline yet. */
+@supports (animation-timeline: scroll()) {
+	#progress-bar {
+		animation: progress linear;
+		animation-timeline: scroll(y);
+	}
+}
+
+@keyframes progress {
+	to { /*scale: 1 1;*/ transform: scaleX(1); } /*change scale to transform*/
+}
+
+#slider input {
+	width: 100%;
+}
+
+#slider label {
+	font-size: 0.8vw;
+	font-family: var(--body-text);
+	opacity: 0.6;
+	font-style: italic;
+	color: var(--palette-text);
+}

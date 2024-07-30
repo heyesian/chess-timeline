@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+		
+		<link rel="stylesheet" href="timeline.css">
+
+	</head>
+	
+	<body>
+	
+		<p id="version">v 1.1.web 2024</p>
+		<section class="introduction">
+			<h1 class="override_scale">A visual history of chessmen</h1> 
+			<p>
+			When you or I think about chess, what pieces do we picture? What pieces do people in other countries picture? What did people in the past picture?
+			</p>
+			<p>
+			Where do chessmen come from? Why do they look like that? Why don't they all look alike? What do different antique chess sets look like? What's with those pieces Beth Harmon was playing with in <em>The Queen's Gambit</em>?
+			</p>
+		</section>
+		
+		<section id="slider">
+			<label for="widthSlider">use this slider to scale timeline until it is comfortable to read.</label>
+		    <input type="range" min="0" max="125" value="100" id="widthSlider">
+			
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					const slider = document.getElementById('widthSlider');
+
+					slider.addEventListener('input', function() {
+						const value = slider.value;
+						const scaleFactor = value / 100;
+
+						// Adjust the width of #timeline
+						document.getElementById('timeline').style.width = `${0.8 * value}vw`;
+						document.getElementById('footnotes').style.width = `${0.8 * value}%`;
+						document.getElementById('footnotes').style.paddingLeft = `${0.1 * value}vw`;
+
+						// Adjust the font-size of various elements
+						document.querySelectorAll('h1, h2').forEach(el => {
+							if (!el.classList.contains('override_scale')) {
+								el.style.fontSize = `${0.0376 * value}vw`;
+								el.style.lineHeight = `${0.01 * value}`;
+								el.style.paddingLeft = `${0.023 * value}vw`;
+							}
+						});
+						document.querySelectorAll('h3').forEach(el => {
+							el.style.fontSize = `${0.0188 * value}vw`;
+						});
+						document.querySelectorAll('div.fact h2, div.fact p, div.fact li, blockquote, p').forEach(el => {
+							el.style.fontSize = `${0.016 * value}vw`;
+						});
+						document.querySelectorAll('div.fact h3, div.fact p').forEach(el => {
+							el.style.fontSize = `${0.012 * value}vw`;
+						});
+						document.querySelectorAll('section#footnotes p.notice, section#footnotes h2, section#footnotes p, section#footnotes li').forEach(el => {
+							el.style.fontSize = `${0.008 * value}vw`;
+						});
+						document.querySelectorAll('div.label div h2').forEach(el => {
+							el.style.fontSize = `${0.0313 * value}vw`;
+						});
+						document.querySelectorAll('div.pattern p.date, div.fact p.date').forEach(el => {
+							el.style.fontSize = `${0.0128 * value}vw`;
+						});
+
+						// Adjust margin-left and margin-right of blockquote
+						document.querySelectorAll('blockquote').forEach(el => {
+							el.style.marginLeft = `${0.05 * value}vw`;
+							el.style.marginRight = `${0.05 * value}vw`;
+						});
+
+						// Adjust width and font-size of div.figure div p and div.fact div.figure p
+						document.querySelectorAll('div.figure div p, div.fact div.figure p').forEach(el => {
+							el.style.width = `${0.2 * value}vw`;
+							el.style.fontSize = `${0.01 * value}vw`;
+						});
+
+						// Adjust margin-left and margin-right of div.pattern p
+						document.querySelectorAll('div.pattern p').forEach(el => {
+							el.style.marginLeft = `${0.03 * value}vw`;
+							el.style.marginRight = `${0.01 * value}vw`;
+						});
+
+						// Adjust width and max-height of img.chessmen
+						document.querySelectorAll('img.chessmen').forEach(el => {
+							el.style.width = `${0.328 * value}vw`;
+							el.style.maxHeight = `${0.168 * value}vw`;
+						});
+
+						// Adjust font-size, width, and padding of div.aside
+						document.querySelectorAll('div.aside').forEach(el => {
+							el.style.fontSize = `${0.0015 * value}vw`;
+							el.style.width = `${0.015 * value}vw`;
+							el.style.padding = `${0.005 * value}vw`;
+						});
+						
+						// Adjust width .figure img 
+						document.querySelectorAll('.figure img').forEach(el => {
+							if (!el.classList.contains('override_scale')) {
+								el.style.width = `${0.2 * value}vw`;
+							}
+						});
+						
+						// Adjust padding .pattern, .fact
+						document.querySelectorAll('.pattern, .fact').forEach(el => {
+							el.style.paddingTop = `${0.03 * value}vw`;
+						});
+						
+						// Adjust stoppers
+						document.querySelectorAll('.stopper').forEach(el => {
+							el.style.width = `${0.016 * value}vw`;
+							el.style.height = `${0.016 * value}vw`;
+							el.style.marginTop = `${-0.009 * value}vw`;
+							el.style.marginLeft = `${-0.008 * value}vw`;
+						});
+						
+						//Adjust timeline line
+						document.querySelectorAll('.label').forEach(el => {
+							el.style.borderRight = `${0.005 * value}vw solid var(--palette-timeline)`;
+						});						
+						
+						//Adjust first figure top margin scaling
+						document.querySelectorAll('.figure').forEach(figure => {
+							const firstChild = figure.firstElementChild;
+							if (firstChild && firstChild.tagName.toLowerCase() === 'div') {
+								firstChild.style.marginTop = `${0.1 * value}vh`; 
+							}
+						});
+						
+						document.querySelectorAll('.entry h2').forEach(el => {
+							el.style.lineHeight = `${0.014 * value}`;
+						});
+										
+						//Unadjust .introduction.
+						document.querySelectorAll('.introduction p').forEach(el => {
+							el.style.fontSize = `${1.6}vw`;
+						});
+
+						document.getElementById('version').style.fontSize = `${1.55}vw`;
+						document.querySelectorAll('p.date').forEach(el => {
+							el.style.marginLeft = `${0.01 * value}%`;
+							el.style.marginRight = `auto`;
+						});
+					});
+				});
+			</script>
+			
+		</section>
+		
+		<section id="timeline">
+			<div class="period">
+				
+				<div class="label">
+					<div class="first">
+						<h2>Ancient history</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					<div class="entry">
+						<h1>Origins</h1>
+					</div>
+					
+					<div class="entry" id="indus_valley">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">2,500 BC</p>
+								<img src="pieces/indus_valley.png" class="chessmen" alt="A cartoon of game pieces from the Indus Valley.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Indus Valley</h2>
+							<p>The earliest ancestors of chess may have been played by the Indus Valley civilisation more than four thousand years ago. Clay figurines discovered in <a class="footnote increment" title="Harappa Museum. Pieces and 'chessboard' photo Harappa Museum via Facebook." href="#footnotes">Lothal</a> may be the earliest "chessmen".</p>
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/harappa_lothal.png" alt="The Lothal 'chessmen'.">
+								<p>The Lothal "chessmen."</p>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>Late antiquity</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">7th C. CE</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<img src="figures/globe.png" style="float:left;width:31%;margin:5px;">
+							<h3>Chataranga and shatranj</h3>
+							<p>By the 7th Century CE, people in India were playing <em>chaturanga</em> ("four divisions"). The name refers to four types of solider that made up the game--infantry, cavalary, elephants, and chariots.</p>
+							<p>Chaturgana spread outwards from India and is thought to be the common ancestor of many similar games, including chess and shogi.</p>
+							<p>In the Second Persian Empire, <em>chaturanga</em> becomes <em>shatranj</em>.</p>
+							<p>As <em>shatranj</em>, new rules are introduced that cause the game to begin to resemble modern chess, including the rule that the king cannot be captured but must be rendered helpless: shah mat, the king is helpless, gives us the word checkmate.</p>
+							<p>The earliest <em>shatranj</em> pieces found are figural. Later, most pieces became abstract/symbolic.</p>
+						</div>
+					</div>
+					
+					<div class="entry" id="Afrasiab">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">8th C.</p>
+								<img src="pieces/afrasiab.png" class="chessmen" alt="A cartoon of Afrasiab chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Afrasiab</h2>
+							
+							<p>The earliest <em>shatranj</em> pieces are thought to be figurative, like those discovered in <a class="footnote increment" title="Samarkand State Museum Reserve. Photo ACDF of Uzbekistan." href="#footnotes">Afrasiab</a>, modern Uzbekistan, made from ivory and dating from the 700s. They feature soldiers on foot, horseback or riding chariots or elephants.</p>
+
+							<p>The Afrasiab chessmen are normally considered the oldest definitive chessmen. While there was a shift in favour of abstract pieces, later examples of figurative Islamic pieces have been found, suggesting they were not completely replaced.</p>						
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/photo_afrasiab1.png" alt="A photo of seven figurative chessmen stone chessmen. Two are charioteers, three are horsemen, and two are footsoldiers.">
+								<p>Seven figurative chessmen were excavated in <a class="footnote" title="Samarkand State Museum Reserve. Photo ACDF of Uzbekistan." href="#footnotes">Afrasiab</a>, northern Samarkland.</p>
+							</div>
+							<div>
+								<img src="figures/early_figural.png" alt="Left, a photo of a stone elephant chess piece, right, a photo of an Afrasiab-style chariot piece.">
+								<p><a class="footnote increment" title="Photos Metropolitan Museum of Art, Bishop: 64.262.1 Rook: 1974.207" href="#footnotes">Early figural chessmen</a>, Left: a bishop (elephant), date given as 7th (!?) to 8th C. Right: rook (chariot) 11th to 12th C.</p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="abstract_persian">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">8th C.</p>
+								<img src="pieces/persian.png" class="chessmen" alt="A cartoon of abstract Persian chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Abstract Persian</h2>
+							
+							<p>The shift to abstract chessmen has traditionally been attributed to religious aniconism: the prohibition of figurative objects to prevent idolatry. However, per the Met, abstract Persian chessmen are now thought to predate the Islamic conquest. Perhaps the adoption of symbolic chessmen were to make them easier to distinguish in games, or cheaper to manufacture?</p>
+							
+							<p><em>Shah</em> and <em>firzan</em> (king and queen) are represented by a large and small throne. The <em>fil</em> (elephant, i.e. bishop) is represented with two tusks, the <em>faras</em> (knight) with one and the <em>rukh</em> (chariot, i.e. rook) with a cleft.</p>
+
+							<p>Although they have a simple silhouette, many of these pieces have been found adorned with intricate designs.</p>
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/abstract_chessmen.png" alt="Left, a photo of one side of a chess set. The pieces are abstract and pale green. Right, a photo showing a close up of a Persian king chessman. It is made of black jet and is covered in abstract carvings.">
+								<p><a class="footnote increment" title="Photos Metropolitan Museum of Art, accessions 1971.193a–ff & 1971.105.1"  href="#footnotes">Abstract chessmen</a>. Left: One side of the Met's particularly striking, complete 12th Century Persian stonepaste pieces. Right: 8th-10th Century <em>shah</em>, made from jet and carved with dot-and circle patterns that were inlayed with red and white pigment. </p>
+							</div>
+						</div>						
+					</div>
+					
+					
+				</div>
+				
+			</div>
+			
+						
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>Early Middle Ages</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					<div class="entry">
+						<h1>Chess in Europe</h1>
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">10th C.</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<div class="figure">
+								<img src="figures/sandomierz.png" alt="Seventeen stone chessmen in the abstract Persian style.">
+								<p>The earliest chessmen discovered in Europe are in the Islamic mode, like the <a class="footnote increment" title="Regional Museum in Sandomierz. Photo Regional Museum in Sandomierz."  href="#footnotes">Sandomierz set</a>, an almost complete 11th C. set discovered in Sandomierz, Poland. It is uncertain if this hoard was imported from the Middle East or manufactured in Europe. Regional Museum in Sandomierz.</p>
+							</div>
+							<h3>Europe imports chess</h3>
+							<p>Many of the earliest chessmen in Europe, which follow the same abstract Persian pattern, were found in the Muslim territories of Andalusian Spain and Sicily. Many are thought to originate from the Middle East. Other examples may have been brought to Europe later, during the Crusades, or manufactured to the same design locally.</p>
+
+							<p>They have been found across Europe made of many different materials, including ivory, bone, and rock quartz.</p>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>High Middle Ages</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+				
+					<div class="entry" id="Charlemagne">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">11th C.</p>
+								<img src="pieces/charlemagne.png" class="chessmen" alt="A drawing the Charlemagne chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Charlemagne</h2>
+							
+							<p>Later, Europeans began to carve their own, figurative pieces. One of the earliest extant examples are the <a title="Bibliothèque Nationale." class="footnote increment" href="#footnotes"><em>Charlemagne</em></a> chessmen. Although legendarily associated with Charlemagne, these chessmen are thought to date from about 200 years later. It was gifted to the French monarchy and ended up in the Treasury of Saint-Denis.</p>
+
+							<p>Carved from ivory in Salerno, Italy, in the 11th century, the set features Norman-Sicillian-style warriors and other figures. The king and queen (replacing the vizier) are depicted in elaborate pavilions.</p>
+
+							<p>It is hard to imagine that such elaborate figural sets--with this one being seen as so precious as to be kept with the French crown jewels--represent sets that were commonplace for play, however.</p>
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="Lewis">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">12th C.</p>
+								<img src="pieces/lewis.png" class="chessmen" alt="A drawing the Lewis chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Lewis</h2>
+							
+							<p>The largest hoard of medieval chessmen is the <a class="footnote increment" title="British Museum and National Museum of Scotland" href="#footnotes">Lewis hoard, discovered in Uig, Scotland</a>.</p>
+
+							<p>These pieces are known for their caricature-like figures with funny, expressive faces. Queens sit on their thrones looking bored, while warders (rooks) gnaw on their shields.</p>
+
+							<p>By this time, the elephants have become bishops, as the two "tusks" were reinterpreted as a bishop's mitre. </p>
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/lewis_film.png" alt="Two schoolchildren play with a red and white Lewis set, while their friend looks on.">
+								<p><a href="#footnotes" title="Copyright 2001 Warner Bro. Entertainment Inc." class="footnote increment">Still</a> from <em>Harry Potter and the Sorceror's Stone</em> (2001), where animated Lewis Chessmen come alive and fight it out on the board.</p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Reimagining queens, bishops and rooks</h2>
+							
+							<p>As European sets became figurative, the pieces became reinterpreted.</p>
+
+							<h3>Queens:</h3>
+							
+							<p>By the time of the Charlemagne set, the vizier piece has become a queen.</p>
+
+							<p>A simple explanation is that her queenliness was suggested by her proximity to the king. <a href="#footnotes" class="footnote increment" title="Davidson H A (1949). ch 3 Female of the Species in A Short History of Chess. Greenberg New York.">Davidson says</a> the change was due to homophony between <em>fierge</em> (counsellor) and <em>vierge</em> (maiden), writing "she owes her title to accident of sound." He has it that <em>maiden</em> became the Virgin Mary and the "queen of angels"--but he also believes it only happened in the 15th-16th Century while the piece was definitely depicted as a queen long before then.</p>
+							
+							<p>The queen only later aquires her long-range moveset and becomes the most powerful piece in the late 15th Century. <a class="footnote increment" title="Yalom, M (2004). ch 2, 7, 11 in Birth of the Chess Queen: A History. Rivers Oram Press." href="#footnotes">Feminist scholar Marilyn Yalom</a>	connects this with the cult around the Virgin Mary and Queen Isabella I of Castile. Yalom also suggests the 10th Century Holy Roman Empresses Adelaide of Burgandy and her daughter-in-law Theophanu as inspirations for vizier's transmutation.</p>
+
+							<h3>Bishops:</h3>
+							
+							<p>While the Charlemagne set features figurative elephants, by the Lewis set the elephants have become bishops, as the two "tusks" of the elephant pieces were reinterpreted as a bishop's mitre. This explanation appears to satisfy everyone.</p>
+
+							<p>In French, the bishop is the <em>fou</em>, <em>fool</em> as in court jester. He  remains an elephant (<em>слон</em>, <em>slon</em>) in Russia.</p>
+
+							<h3>Rooks:</h3>
+							
+							<p>The chariots of the Charlemagne set become sword-and-shield wielding warriors in the Lewis set, but would later be reimagined as towers.</p>
+
+							<p>A popular explanation given for this is that <em>rukh</em> was equated with either Medieval Latin <em>rocca</em> or Italian <em>rocco</em> meaning tower, and indeed in modern Italian <em>rocco</em> means both <em>rock</em> and <em>fortress</em>. However, <a href="#footnotes" title="Ròcco. Vocabolario on line. Treccani." class="footnote increment">Treccani</a> asserts <em>rocco</em> first arrived in Italian meaning the chessman, from the Persian <em>rukh</em>, and only later gained the meaning tower (synonymous with <em>torre</em>). <em>Rocca</em> appears in <a href="#footnotes" title="Rocca. Du Cange." class="footnote increment">Du Cange's Medieval Latin dictionary</a> with the meaning of <em>fortress</em>, but its etymology is unknown.</p>
+
+							<p>Alternatively, <a class="footnote increment" title="Hans Hollander (2017). Cyclopes, Elephants and Chess Rooks. Originally published 2007 in Festscrhift for Götz Pochat." href="#footnotes">Hans Holländer</a> has attributed the origins of the rook-as-tower to Vida's 16th Century poem Scacchia Ludus, where rooks are depicted as war elephants which carried towers on their backs.</p>
+						</div>
+
+						
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>Late Middle Ages</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					
+					<div class="entry" id="italian_renaissance">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1420-1450</p>
+								<img src="pieces/mallett.png" class="chessmen" alt="A cartoon of a partial set of chessmen from the Italian Renaissance.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Italian Renaissance</h2>
+							
+							<p>An incomplete set from Northern Italy, donated with period chess board to the <a href="#footnotes" class="footnote increment" title="Ashmolean Museum, Oxford. Accession WA1947.191.229.">Ashmolean Museum by J. Francis Mallett</a>. </p>
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="caxton">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1485</p>
+								<img src="pieces/caxton.png" class="chessmen" alt="A cartoon of Caxton chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Caxton</h2>
+							
+							<p>In addition highly decorative figural chessmen, chess players of the Middle Ages would have played with simpler, abstract pieces. </p>
+
+							<p>Those above are based on the engravings of <em>The Game and Playe of the Chesse</em>, a 1485 a translation by William Caxton of a 13th Century allegorical work by Jacobus de Cessolis, and <a href="https://www.thehistoricgamesshop.co.uk/onlineshop/prod_7387266-Caxtons-fifteenth-century-chess-pieces.html">a reproduction of the same from The Historic Games Shop, Wales</a>. </p>
+						</div>
+						<div class="figure">
+							<img src="figures/engraving_caxton.png" alt="Engraving from Caxton's The Game and Playe of th Chesse, 1485.">
+						</div>						
+					</div>
+					
+
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>16th Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+				
+					<div class="entry">
+						<h1>Early Modern Europe</h1>
+					</div>
+
+					<div class="entry" id="windsors_simple">
+						<div class="pattern">
+							<div class="set">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Windsor's simple</h2>
+							
+							<p>In the absence of artefacts, depictions of chessmen in 16th Century art give us an idea of what sets would have looked like in Europe at this time.</p>
+
+							<p>In the <a class="footnote increment" title="Photo via Wikimedia Commons." href="#footnotes">family portrait of the 3rd Baron Windsor (1568)</a>, of uncertain authorship, right, Windsor's children play with simple, abstract (that is, non-figural) chessmen.</p>
+
+							<p>In addition, in his <a href="#footnotes" class="footnote increment" title="Rowbotham's manual as quoted in Thomas Wright. On domestic games an amusements in the Middle Ages. The Art-Journal (1859) 5. (orthography modernised by author)">1562 translation of an originally Italian chess manual, James Rowbotham</a> describes typical chessmen in England around this time: (edited for modern othography)</p>
+							
+							<blockquote>
+							"Our English chessmen are commonly made nothing like unto these foresaid fashions [i.e. they are not figural]: to wit, the king is made the highest or longest; the queen is longest next unto him; the bishop is made with a sharpe top, and cloven in the middle not much unlike to a bishop’s mitre; the knight has his top cut asloope [cf. Headless Horsemen, below], as though being dubbed [i.e. in a ceremony conferring knighthood] knight; the rook is made most like the king and the queen, but is not so long; the pawns made the smallest..."
+							</blockquote>
+							
+							<p>Compare to the 18th C. Rowbotham chessmen, below. </p>
+							
+						</div>
+						<div class="figure">
+							<img src="figures/windsor.png" alt="Two children playing with a red and yellow chess set.">
+						</div>						
+					</div>
+					
+					<div class="entry" id="anguissolas_figural">
+						<div class="pattern">
+							<div class="set">
+				
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Anguissola's Figural</h2>
+							
+							<p>Sofonisba Anguissola's 1555 painting <em>The Game of Chess</em>, detail right, depicts the artist's sisters playing chess wth wooden, bust-like figural pieces.</p>
+
+							<p><a href="#footnotes" class="footnote" title="Rowbotham's manual as quoted in Thomas Wright. On domestic games an amusements in the Middle Ages. The Art-Journal (1859) 5. (orthography modernised by author)">Rowbotham's manual</a> gives a description of what was apparently considered typical Italian chessmen as figural pieces, thus: (edited for modern othography)</p>
+							
+							<blockquote>
+							“"Some make them like men, where the king is the highest [i.e. tallest], and the queen (which some name Amazon or lady) is the next, both two crowned. The bishops some name alplhins [i.e. standard bearers], some fools, and some name them princes... other some call them archers, and they are fashioned according to the will of the workman. The knights some call horsemen, and they are men on horse back. The rooks some call elephants, carrying towers upon their backs, and men within the towers. The pawns some call footmen, as they are soldiers on foot, carrying some of them pykes, other some arquebus [15th-17th C. gun], other some halberds, and other some the javelin and target..."
+							</blockquote>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/anguissola.png" alt="The artist's two sisters pplaying with wooden chess pieces.">
+								<p>Detail from <em>The Game of Chess</em> (1555), <a href="#footnotes" title="Photo via Wikimedia Commons." class="footnote increment">Sofonisba Anguissola.</a>
+							</div>
+							
+
+						</div>								
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1561</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Ruy López de Segura writes Libro del Axedrez.</p>
+						</div>
+					</div>
+
+				</div>
+			
+			</div>
+
+
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>17th Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">				
+
+					<div class="entry" id="selenus">
+						<div class="pattern">
+							<div class="set">
+								<img src="pieces/selenus.png" class="chessmen" alt="A cartoon of Selenus chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Selenus</h2>
+							
+							<p>This pattern has its origins in the early 17th Century, where similiar chessmen appear in the illustrations of Gustavus Selenus's 1616 chess manual. It would remain popular in Germany and Northern Europe until the 1850s.</p>
+							
+							<p>Selenus pieces are slender and delicate chessmen with multiple tiers. Knights have become more clearly horse's heads, and the rook a tower.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="dutch">
+						<div class="pattern">
+							<div class="set">
+								<img src="pieces/dutch.png" class="chessmen" alt="A cartoon of Dutch chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Dutch</h2>
+							
+							<p>Slight and delicate. These are normally attributed to the Netherlands, although it is uncertain exactly where and some sets at auction have been speculated to come from Germany or Denmark. </p>
+							
+							<p>In this pattern, the kings, queens, and bishops appear as slender, 'multi-knopped' columns, distinguished mainly by height. They often have contrasting finials, which  may be bone on an otherwise wooden set. The knights look solemn, and are dramatically arched. Rooks are stylised towers with spires.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="rowbotham">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">17/18th C. </p>
+								<img src="pieces/rowbotham.png" class="chessmen" alt="A cartoon of Rowbotham chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Rowbotham</h2>
+							
+							<p>In a 2018 essay, <a href="#footnotes" title="Rochford, D (2017). What did 16th Century English chess sets look like? Chess Collectors International" class="footnote increment">Dermot Rochford</a> christens this pattern of 17th/8th Century English chessmen Rowbotham, arguing that they may retain or recapitulate features from James Rowbotham's 16th Century description.</p>
+
+							<p>Cf. the Windsor Family Portrait, above.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+
+				</div>
+			
+			</div>
+
+
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>18th Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">				
+
+					<div class="entry" id="archangel">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1740s on?</p>
+								<img src="pieces/archangel.png" class="chessmen" alt="A cartoon of Archangel chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Archangel</h2>
+							
+							<p>Uncommon pattern attributed to Kholmogory or the Archangel region in general. Kholmogory, better known for figural sets, was a centre of bone carving in 18th Century Russia.</p>
+
+							<p>These chessmen may be made from animal bone, mammoth tusk or walrus ivory. Some chessmen of this silhouette have carved faces for finials. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="kholmogory">
+						<div class="pattern">
+							<div class="set">
+								<p class="date"></p>
+								<img src="pieces/kholmogory_figural.png" class="chessmen" alt="A cartoon of Kolmogory Figural chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Kholmogory figural</h2>
+							
+							<p>Figural chessmen from the Russian bone and walrus tusk carving centre of Kholmogory. These often depicted armies of different nations, where they opposing sides were not necessarily stained different colours but distinguished by different troop design.</p>
+
+							<p>In the above pattern (<a href="#footnotes" title="Metropolitan Museum of Art accessions 60.146a–p, aa–pp, q" class="footnote increment">Metropolitan Museum of Art</a>), as is common in Russian figural sets, rooks are depicted as ships and bishops as elephants.</p>
+							
+						</div>
+						<div class="figure">
+
+						</div>						
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1769</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Baron von Kempelen builds the Mechanical Turk, a hoax robot chess player.</p>
+						</div>
+					</div>
+					
+					<div class="entry" id="washington">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1770</p>
+								<img src="pieces/washington.png" class="chessmen" alt="A cartoon of Washington chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Washington</h2>
+							
+							<p>Known as <em>Washington</em> pattern after a famous set once owned by the chess enthusiast and first US president of the same name.</p>
+
+							<p>Typically: kings have "cogged" crowns, queens with ball finials, bishops with split mitres, knights arched and rooks as turrets.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="regency">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1770</p>
+								<img src="pieces/regency.png" class="chessmen" alt="A cartoon of Regency chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Regency</h2>
+							
+							<p>The centre of chess in the 1700s, and Philidor's regular haunt, was the <em>Café de la Régence</em>, Paris. It gives its name to the <em>Régence</em> or <em>Regency</em> pattern chessmen that were popular at the time.</p>
+
+							<p>Though they would fall out of favour for easier to disinguish pieces, they were still popular enough by the early 20th Century to be depicted in Antti Favén's 1913 painting of the Café.</p>
+
+							<p>Urn-shaped stands with dainty stems. Kings with flattened crowns. Queens and bishops with spherical finials (harder to tell them apart). Bishops collars with crimped edges to evoke the biretta, a clergical hat. Knights are figural horse heads: contemporaneous sets with turned knights instead of carved, resembling the bishops and queens, are called <em>Directoire</em> sets. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/faven_chess_players.png" alt="Detail from The Chess Players (1913). Several figures are playing chess at two chess boards, either side of a cup and saucer. One set has red and cream pieces, and the other black and cream pieces.">
+								<p>Detail from The Chess Players (1913), <a href="#footnotes" title="Photo via Wikimedia Commons." class="footnote increment">Antti Favén.</a></p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="lyon">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1780</p>
+								<img src="pieces/lyon.png" class="chessmen" alt="A cartoon of Lyon chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Lyon</h2>
+							
+							<p>Thought to originate near Lyon in France, such sets resemble Regency sets with the addition of bone or ivory trimmings--collars, finials, feet.</p>
+
+							<p>In a similiar mixed-material pattern known as <em>Inverted Lyon</em>, the urn bases are upturned, more like bells, and the bone collars resemble more of a skirt.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+
+					<div class="entry" id="dieppe">
+						<div class="pattern">
+							<div class="set">
+								<p class="date"></p>
+								<img src="pieces/dieppe.png" class="chessmen" alt="A cartoon of Dieppe chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Dieppe</h2>
+							
+							<p>Figural carved chessmen were still made alongside turned wooden, ivory and bone pieces.</p>
+
+							<p>Dieppe, the centre of ivory carving in France, was known for producing ivory bust-style chessmen depicting political themes. Opposing kings becoming busts of real people in conflict like Henri IV and Napolean, and sets depicting different national armies from history</p>
+
+							<p>This 1870s set (<a href="#footnotes" title="Metropolitan Museum of Art accessions 48.174.153a–p" class="footnote increment">Metropolitan Museum of Art</a>) represents King Ferdinand and Queen Isabella of Spain in the Granada War. As a French set, bishops are normally jesters (French: <em>fous</em>). Knights may have riders, so called "hobby-horse knights."</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+
+					<div class="entry">
+						<h1>Late Modern Period</h1>
+					</div>
+
+					<div class="entry" id="barleycorn">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">18/19th C. </p>
+								<img src="pieces/barleycorn.png" class="chessmen" alt="A cartoon of Barleycorn chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Barleycorn</h2>
+							
+							<p>Ornate chessmen turned from bone, often carbed with ornate folliage decorations.</p>
+
+							<p>Because only the outside tube of the bone (cortex) can be carved, these are made from multiple pieces screwed together. The diameter of the marrow that filled the bone limits the minimum diameter of the barrels.</p>
+
+							<p>Varied King's finials--flower, cog-shaped, or imperial crowns--possible. Rooks as full towers, with or without flag.</p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/ashton_chess_game.png" alt="Detail from The Chess Game (1878). Two men play with white and red barleycorn pieces in front of a vase.">
+								<p>Detail from The Chess Game (1878), <a href="#footnotes" title="Photo via Wikimedia Commons." class="footnote increment">Julian Ashton.</a></p>
+							</div>
+						</div>						
+					</div>
+
+				</div>
+			
+			</div>
+
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>19th Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">				
+
+					<div class="entry" id="pulpit">
+						<div class="pattern">
+							<div class="set">
+								<p class="date"></p>
+								<img src="pieces/pulpit.png" class="chessmen" alt="A cartoon of Pulpit chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Pulpit</h2>
+							
+							<p>Though historically referred to as <em>Spanish Pulpit</em> chessmen, the origins of the intricately decorated <em>Pulpit</em> chessmen have been a matter of debate--but they're probably not from Spain.</p>
+
+							<p>The Russian bone carving centre of Kholmogory has been 
+							suggested, although interestingly most of these sets appear in 
+							English collections. <a href="#footnotes" title="Garrick Coleman, Note on the origins of Pulpit Chess Sets." class="footnote increment">Garrick Coleman asserts</a>
+ 							that these were made by French prisoners of war, held in 
+							England during the Napoleonic Wars, who were known to make bone 
+							crafts to sell for income.</p>
+
+							<p>Pulpit chessmen may be entirely non-figural, but many partial-figural examples exist. There are modern Mexican bone sets known as Mexican Pulpit due to their similiarity to these patterns.  </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="figural_pulpit">
+						<div class="pattern">
+							<div class="set">
+								<p class="date"></p>
+								<img src="pieces/figural_pulpit.png" class="chessmen" alt="A cartoon of figural Pulpit chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Figural Pulpit</h2>
+							
+							<p>Figural sets in the Pulpit style, where the kings, queen, and bishops feature upper bodies or just heads emerging from <em>Pulpit</em>-style bases.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="st_george">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1830</p>
+								<img src="pieces/st._george.png" class="chessmen" alt="A cartoon of St. George chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>St. George</h2>
+							
+							<p>Known as <em>St. George</em> after the St. George Chess Club, London, <em>Old English</em>, <em>Calvert</em> or <em>Calvert English</em>. Originating from John Calvert's London workshop in the late 18th and early 19th Centuries, similar patterns would be picked up by other workshops including Jaques of London and William Lund.</p>
+
+							<p>Heavy set pieces with wide bases, decorated with many 'knops' (the 'ribs' up the stems). The bishops have split open mitres. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<h3>Headless horsemen</h2>
+								<img src="figures/headless_horseman.png" alt="A cartoon of a turned knight piece 'cut asloop', to create the impression of a horse's head without carving one by hand." style="float:left;width:25%;margin:5%;" class="override_scale">
+								<p style="margin: 5% 0;">The asymetric knight's horse head could not easily be produced on a lathe alone.</p>
+								
+								<p>Alternatively, knights could be turned on a lathe as with the other pieces, and the head cut off at an angle. These "slope-cut" knights were seen in cheaper sets.</p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="indian_islamic">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1830</p>
+								<img src="pieces/indian_islamic.png" class="chessmen" alt="A cartoon of Indian Islamic chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Indian Islamic</h2>
+							
+							<p>Originating from Muslim-majority Northern Indian. Other similar chessmen were made in other majority Muslim countries like Turkey.</p>
+
+							<p>May be of a wide variety of shapes: mushroomoid, spools, and so on. Common features are that they are completely nonfigural, without symbols, and pieces are distinguished by size.</p>
+
+							<p>Their similarity to ancient <em>Persian shatranj</em> pieces is undeniable. Despite their simplicity, often they are painted with bright colours or patterns.</p>
+							
+						</div>
+						<div class="figure">
+
+						</div>						
+					</div>
+					
+					<div class="entry" id="biedermeier">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1800-1850</p>
+								<img src="pieces/biedermeier.png" class="chessmen" alt="A cartoon of Biedermeier chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Biedermeier</h2>
+							
+							<p><em>Biedermeier</em> chessmen, named for the Biedermeier period and design movement, were popular in Central Europe in the first half of the 19th Century.</p>
+
+							<p>The bishops finials deserve comment: often with opposite-coloured balls or batons evoking a 'feather in a cap'. In later sets they resemble hats more closely, transforming into a 'beret' (disk attached at a jaunty angle), or a little top hat or bowler. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<h3>Hats of Biedermeier bishops</h2>
+								<img src="figures/biedermeier_bishops.png" alt="A cartoon of different Biedermeier bishop 'hats': emerging from the middle of the bishop's head like a carpel in a flower, as an orb off to one side, as a baton sticking out at an angle like a feather, as a disk sitting askew like a beret, and as a miniature top hat at an angle." style="width:75%;margin:5% auto;">
+							</div>
+								
+							<div>
+								<img src="figures/biedermeier_kolozsary.png" alt="A close up of a chess board with Biedermeier pieces.">
+								<p>Detail from Das Schachspiel (1937), <a href="#footnotes" class="footnote increment" title="Photo via Wikimedia Commons.">Lajos Kolozsváry.</a></p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="hastilow">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1800-1850</p>
+								<img src="pieces/hastilow.png" class="chessmen" alt="A cartoon of Hastilow chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Hastilow</h2>
+							
+							<p>Decorative, stocky chessmen, reminiscient of the <em>St. George</em> pattern with more elaborate heads. Typically referred to as Hastilow as they are attributed to Charles Hastilow, a turner from mid-19th Century London.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="killarney">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1800-1850</p>
+								<img src="pieces/killarney.png" class="chessmen" alt="A cartoon of Killarney chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Killarney</h2>
+							
+							<p>When Killarney, Ireland became a popular tourist destination in the mid-19th Century, a cottage industry in woodwork for the tourist trade flourished.</p>
+
+							<p>"Killarney ware," as it is referred to at auction, comprises popular and decorative antiques of yew, oak, or arbutus. Game sets, including chessmen, were produced alongisde furniture, boxes, and trinkets.</p>
+
+							<p>Killarney chessmen can be very varied: this is less a specific pattern as much as a designation of antiques by origin--i.e. chessmen that are also Killarney ware. However, many are slender, with pointed kings finials, rounded queen's finials, flower-bud bishop mitres.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="burmese-canton">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1800-1850</p>
+								<img src="pieces/burmese-canton.png" class="chessmen" alt="A cartoon of Burmese-Canton chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Burmese-Canton</h2>
+							
+							<p>Historically called <em>Burmese</em> as they were misattributed to Burma (modern Myanmar), these kind of highly detailed sets are now thought to have been made in Canton for the export market.</p>
+
+							<p>Adding to the confusion, sets used to play chess-cousin <em>sittuyin</em>, a Myanma offshoot of <em>chaturanga</em>, are often listed as "Burmese" as well. Real Burmese <em>sittuyin</em> sets are very different: they are figural, featuring squatting generals, elephants, horses and chariots.</p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/budd_chess_board.png" alt="A red and white Burmese-Canton chess set, in mid-game, on a black and white board.">
+								<p>Detail from The Chess Board (1927), <a href="#footnotes" class="footnote increment" title="In the collection of the Potteries Museum & Art Gallery, Stoke-on-Trent. Photo via Artuk.">Herbert Ashwin Budd.</a></p>							
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="northern_upright">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1840s</p>
+								<img src="pieces/northern_upright.png" class="chessmen" alt="A cartoon of Northern Upright chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Northern Upright</h2>
+							
+							<p>A precursor to the <em>Staunton</em> design, <em>Upright</em> or <em>Northern Upright</em> chessmen show the beginnings of the trend towards simplified, more practical chessmen to play with.</p>
+
+							<p>They are also called <em>Edinburgh Upright</em> after the Edinburgh Chess Club, where they originated, attributed to Lord John Hay.</p>
+
+							<p>They made their way to London where they were produced by Hallett of Holborn and Jaques. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="dublin">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1840s</p>
+								<img src="pieces/dublin.png" class="chessmen" alt="A cartoon of Dublin chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Dublin</h2>
+							
+							<p>Another <em>Staunton</em> antecedent. Some of these sets are attributed to Ireland, but they were also made by Jaques of London.</p>
+
+							<p>The Dublin pattern combines <em>Upright</em>-style iconic heads with baulster-type stems. Many examples look uncannily modern, with unadorned, simple shapes.</p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/creifelds_veterans.png" alt="A black and honey Dublin chess set, in mid-game. A player is moving a rook.">
+								<p>Detail from The Veterans (1886), <a href="#footnotes" class="increment footnote" title="In the collection of the Brooklyn Museum. Photo from Brooklyn Museum.">Richard Creifelds.</a></p>							
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="hallett">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1840s</p>
+								<img src="pieces/hallett.png" class="chessmen" alt="A cartoon of Hallett chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Hallett</h2>
+							
+							<p>The originator of this pattern is uncertain but it has been attributed <a href="#footnotes" title="" class="footnote increment">attributed by Dr Langer</a> to Hallett of Holborn on account of the knight design.</p>
+
+							<p>An uncommon offshoot of <em>Northern Upright</em> chessmen: shorter and sturdier. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+					
+					<div class="entry" id="staunton">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1849</p>
+								<img src="pieces/staunton.png" class="chessmen" alt="A cartoon of Staunton chessmen.">
+							</div>
+							<div style="background-color: darkblue;"><hr><span class="stopper"></span>
+							<h2>Staunton</h2>
+							
+							<p>The 'just so' story of the <em>Staunton</em> pattern is this: the variety of chessmen designs popular in different parts of Europe had become an obstacle to international chess competitions. The existing styles could be impractical and top-heavy, or players had difficulty distinguishing pieces of unfamiliar sets. Nathaniel Cooke designed a more practical set that so impressed Howard Staunton, chess master, that he put his name to them.</p>
+
+							<p>Cooke was supposedly inspired by London architecture and horses of Classical sculpture the like Elgin/Parthenon Marbles. Variants on the knight design are used to distinguish different antique and collectable <em>Staunton</em> sets. The queen now has her coronet, rather than a ball finial of <em>Upright</em>, <em>St. George</em>, and other antecedent sets. For the <em>Smithsonian</em>, architect <a href="#footnotes" title="Stamp, J. (2013). How the Chess Set Got Its Look and Feel. Smithsonian Magazine." class="footnote increment">Jimmy Stamp writes</a>:</p>
+
+							<blockquote>
+							"The work of architects like Christopher Wren, William Chambers, John Soane, and many others inspired the column-like, tripartite division of king, queen, and bishop. A row of Staunton pawns evokes Italianate balustrades enclosing of stairways and balconies."
+							</blockquote>
+
+							<p>The original <em>Staunton</em> chessmen were produced by Jaques of London from 1849. Later, other manufacturers produced their own <em>Staunton</em>-style sets. The leading expert on the <em>Staunton</em> pattern is <a href="#footnotes" class="footnote increment" title="Fersht, A. (2018) Jaques and British Chess Company Chess Sets.‎ Kaissa Publications, Cambridge.">Sir Alan Fersht FRS</a>, better known for his work on protein engineering, who has published a couple of guides to Jaques and contemporaneous chess sets.</p>
+
+							<p>Today wood, plastic, and metal sets following the <em>Staunton</em> pattern are cheap and widely available. <em>Staunton</em> became the de facto standard chessmen by the mid-20th Century, and today FIDE officially requires the pattern for tournaments.</p>
+
+							<p>So practical and iconic were the <em>Staunton</em> chessmen that even before they reached total cultural hegemony, the iconic pattern would inform other chessmen designs internationally that responded to or took on features from the pattern. </p></div>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/eakins_chess_players.png" alt="A Staunton chess set, mid game, in front of two glasses of scotch. Two taken pieces are poking out of a draw in the side of the chessboard.">
+								<p>Detail from <em>The Chess Players</em> (1876), <a href="#footnotes" class="increment footnote" title="In the collection of the Metropolitan Museum of Art, accession 81.14. Photo via Wikimedia Commons.">Thomas Eakins.</a></p>							
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="merrifield_philidor">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1850</p>
+								<img src="pieces/merrifield_philidor.png" class="chessmen" alt="A cartoon of Merrifield Philidor chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Merrifield Philidor</h2>
+							
+							<p>George Merrifield was an English turner from the first half of the 19th C., who had apprenticed under Calvert and was known for his exqusite <em>St. George</em>- and <em>Lund</em>-style sets.</p>
+
+							<p>Merrifield produced this pattern in an unsuccessful attempt to compete with the Staunton pattern. Per Crumiller, these were only produced for 6 months!</p>
+							
+						</div>
+						<div class="figure">
+
+						</div>						
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1851</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Adolf Anderssen wins the first international chess tournament, held in London. </p>
+						</div>
+					</div>
+					
+					<div class="entry" id="austrian_coffeehouse">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1880s</p>
+								<img src="pieces/austrian_coffeehouse.png" class="chessmen" alt="A cartoon of Austrian Coffeehouse chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Austrian Coffeehouse</h2>
+							
+							<p>The formidable <em>Austrian Coffeehouse</em> or <em>Old Vienna</em> chessmen, are something of a fusion between the <em>Biedermeier</em> and <em>Staunton</em> patterns, although auction houses seem to use <em>Coffeehouse</em> as more of a catch all for any non-<em>Staunton</em> Central European patterns.</p>
+
+							<p>These became the typical chessmen for games in Vienna and Central Europe from the late 19th until the middle of the 20th Century, when <em>Staunton</em> gradually overtook them. The kings and queens have gear-like crowns. Bishop mitres are usually opposite coloured. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<h3>Carlsbad 1929</h3>
+								<img src="figures/carlsbad_1929.png" alt="A black and white photo of Aron Nimzowitsch and Alexander Alekhine at a chess board, with Coffeehouse chessmen. Victor Tietz looks on.">
+								<p>Nimzowitsch, Alekhine, and Coffeehouse chessmen in the <a href="#footnotes" title="Photo from Chess Notes (1987) 6:1319 via E. Winter of Chesshistory.com" class="footnote increment">Carlsbad 1929 tournament.</a></p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="ceska_klubovka">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1880s</p>
+								<img src="pieces/ceska_klubovka.png" class="chessmen" alt="A cartoon of Česká Klubovka chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Česká Klubovka</h2>
+							
+							<p>The <em>Česká Klubovka</em>--Chess Club--chessmen were designed in Prague in the 1880s by Czech sculpter <a href="https://en.wikipedia.org/wiki/Bohuslav_Schnirch">Bohuslav Schnirch</a>. Writing in 2018, chess collector <a href="#footnotes" class="footnote increment" title="Lanier, N. (2018). Check or Czech? - the Czech Club Pieces. Presented at the 18th CCI World Congress in Prague 2018.">Nicholas Lanier contextualised</a> Schnirch's chessmen as a salvo in a culture war asserting independent Czech national identity.
+
+							<blockquote>
+							"But chess was also split along the cultural and language divide... In the course of the [eighteen] eighties Schnirch found it necessary to provide his club with a proper chess set in a different style--the prevalent coffeehouse chess men were a Vienna invention, therefore the oppressors' "chessic" imposition... a new chess set responding to the national spirit of Czech Chess players was needed."
+							</blockquote>
+							
+							<p>The influence of the <em>Staunton</em> design is clear, but with a Czech twist. Opposite-coloured heads or finials, common in Central European sets, are typical for the bishops and often present on the queen and king. The bishops tend not to have a groove in their mitre, but have two flicks of colour suggestive of preaching band neckwear. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1886</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Steinitz crowned first World Chess Champion. </p>
+						</div>
+					</div>
+					
+					<div class="entry" id="knubbel">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1890</p>
+								<img src="pieces/knubbel.png" class="chessmen" alt="A cartoon of Knubbel chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Knubbel</h2>
+							
+							<p>Petite pieces with wide bases, these were the go-to chessmen in Denmark through to the 1960s.</p>
+							
+							<p>The name <em>Knubbel</em> (i.e. <em>Lump</em>) seems to have been coined by a German chess collector website, under the impression the pieces were an exclusively German pattern. In fact, <a href="#footnotes" class="increment footnote" title="Langer & Seiersen (2023). The true origin of the 'Knubbel' sets. Chess Collector 33(3).">research by Langer & Seiersen</a> confirms their Danish origin, emerging by the 1890s. In Denmark they have gone by a few monikers: <em>Copenhagen</em> chessmen, and later <em>Danish-type</em> and the <em>(Danish Chess) Union</em> model. Nevertheless, <em>Knubbel</em> seems to have stuck, in the Anglosphere at least. </p>
+							
+						</div>
+						<div class="figure">
+
+						</div>						
+					</div>
+					
+					
+				</div>				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>Early 20th Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">	
+				
+					<div class="entry" id="schlechter-lasker">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1910</p>
+								<img src="pieces/schlechter-lasker.png" class="chessmen" alt="A cartoon of Schlechter-Lasker chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Schlechter-Lasker</h2>
+							
+							<p>Or <em>Austrian Upright</em>, a pattern known from the Carl Schlecter vs Emanuel Lasker world championship match of 1910. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+					<div class="entry" id="averbakh">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1910s</p>
+								<img src="pieces/averbakh.png" class="chessmen" alt="A cartoon of Averbakh chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Averbakh</h2>
+							
+							<p>Following a typical Russian design philosophy, these tall and thin pieces have wide bases to make them more stable to play with.</p>
+
+							<p>Commonly referred to as <em>Averbakh</em>, after Yuri Averbakh who was photographed with such chessmen in the 1949 Moscow Championship, they are also known as <em>Soviet Upright</em> or <em>Russian Upright</em>. Noshir Patel, in conversation in the <a href="#footnotes" title="The Chess Collective. Chess Studies with Beautiful Chess Sets! -Chess Collector Hangout #3 (feat. Noshir Patel). Youtube." class="footnote increment">Chess Collectors Hangout podcast</a>, relates his discovery of such a set with crosses for the king's finials, indicating that the pattern has origins in Tsarist (pre-1917) Russia. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+					<div class="entry" id="man_ray">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1920</p>
+								<img src="pieces/man_ray.png" class="chessmen" alt="A cartoon of Man Ray chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Man Ray</h2>
+							
+							<p>Dada and surrealist artist Emmanuel "Man Ray" Radnitzky's original and minimalist take on chessmen. Man Ray plays chess against Marcel Duchamp in <em>Entr'acte</em>, the 1924 silent film and Dada art piece--although not with this set. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+					<div class="entry" id="bauhaus">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1923</p>
+								<img src="pieces/bauhaus.png" class="chessmen" alt="A cartoon of Bauhaus chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Bauhaus</h2>
+							
+							<p>This iconic set in Bauhaus style was designed by Josef Hertwig.</p>
+
+							<p>This set is distinctly minimal, formed from simple geometric solids. The designs for the knights and bishops reflect how they move on the board. </p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+					<div class="entry" id="poltava_bell-bottoms">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1930</p>
+								<img src="pieces/poltava_bell-bottoms.png" class="chessmen" alt="A cartoon of Poltava bell-bottom chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Poltava bell-bottom</h2>
+							
+							<p>Originating from Ukraine's historic woodworking region of Poltava, there is little known about the origins this Soviet-era design, but <a href="#footnotes" class="footnote increment" title="Grau C. (2023). 1930s Poltava Artel Sport & Culture Bell-Bottom Set. Soviet and Late Tsarist Chess Sets blog.">Chuck Grau conjectures</a> the "bell-bottoms" may have been inspired by the Poltava skyline and the domes and towers of its monasteries and churches. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+								<img src="figures/poltava_church.png" alt="The roof of a white stone cathedral. Its roof is green, and in the centre is a tower with a golden onion dome. The tower is surrounded by smaller towers with green domes with and gold elements.">
+								<p>One of Poltava's beautiful domed buildings is the <a href="#footnotes" title="Photo via Wikimedia Commons." class="footnote increment">Church of Sampson the Hospitable</a>, built to commemorate the Battle of Poltava.</p>
+							</div>
+						</div>						
+					</div>
+					
+					<div class="entry" id="lardy">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1930s</p>
+								<img src="pieces/lardy.png" class="chessmen" alt="A cartoon of Lardy chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Lardy Staunton</h2>
+							
+							<p>Lardy were a French chesset manufacturer known for the mass production and export of <em>Staunton</em>-pattern sets. They began production of these boxwood sets in the 1930s, and Lardy reached their greatest popularity in the 1950s-60s before closing down in 1992. <a href="#footnotes" class="footnote increment" title="Lanier, N. (2016). Chess production in the Jura. chess-museum.com">Nicholas Lanier had an essay on the history of the Lardy company</a> and their rivals in the French woodmaking region of Jura.</p>
+							
+							<p>Most distinctive of <em>Lardy</em> sets is the <em>Lardy knight</em>, which has a recognisable profile with an erect head held parallel to the ground, bulging eyes and striations on the neck. Their characterful appearance--Lanier called them "Roman nosed"--probably contributes to enduring popularity of <em>Lardy</em> sets: what were once a mass-market pattern is now the subject of premium, luxury reproductions.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+					
+					<div class="entry" id="bundesform">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1934</p>
+								<img src="pieces/bundesform.png" class="chessmen" alt="A cartoon of Bundesform chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Bundesform</h2>
+							
+							<p>The <em>Deutsche Bundesform</em>, German federal shape, was developed under the Nazis to replace foreign Staunton chessmen with Germany's own nationalist and regime-endorsed design. Holger Langer attributes the design to German chess master <a href="#footnotes" class="footnote increment" title="Langer H. German 'Bundesform' Chess Set (Habera), 1935-1945.">Ehrhardt Post.</a></p>
+							
+							<p>They were made famous by their use in the Munich 1936 Olympiad and remained popular in Germany long after the war.</p>
+							
+						</div>
+						
+						<div class="figure">
+						</div>		
+						
+					</div>
+					
+					<div class="entry" id="wartime">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1940s</p>
+								<img src="pieces/wartime.png" class="chessmen" alt="A cartoon of a Wartime chess set.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Wartime chess sets</h2>
+							
+							<p>Reflecting wartime austerity, during the 1940s simple travel sets, where chessmen were repesented by symbols printed onto card or wooden tokens, were sent to soldiers on the front or in Red Cross parcels to prisoner-of-war camps. Turned over, they could do as draughts men. </p>
+							
+						</div>
+						
+						<div class="figure">
+						</div>		
+						
+					</div>
+					
+					<div class="entry" id="max_ernst">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1944</p>
+								<img src="pieces/max_ernst.png" class="chessmen" alt="A cartoon of Max Ernst chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Max Ernst</h2>
+							
+							<p>Designed by Dadaist painter and sculpture Max Ernst for the 1944 <em>Imagery of Chess</em> exhibition, one notable feature of this pattern is that the Queen is taller than the King. </p>
+							
+							<p>Larry List of the Man Ray Trust <a href="#footnotes" class="increment footnote" title="List, L. (2016) The 20th Century, in Rare and Beautiful Chess Sets of the World (Ed: McLain, D. L.) Murray & Sorrell FUEL, London.">writes</a> that Ernst was inspired by Angkor Wat, Easter Island, and African art.</p>
+							
+						</div>
+						
+						<div class="figure">
+						</div>		
+						
+					</div>
+					
+					<div class="entry" id="chavet">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1945</p>
+								<img src="pieces/chavet.png" class="chessmen" alt="A cartoon of Chavet chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Chavet Staunton</h2>
+							
+							<p>Henri Chavet was another turner from the French Jura. He began making Regency-style chess sets in 1912, but is well known for his Staunton produced sets after World War II.</p>
+							
+							<p>Most characteristic are the <em>Chavet knights</em>, machine cut with slopy, curvy sides. The design has had a lasting influence, clearly reflected in the knights  of Well's <em>World Championship</em> chessmen.</p>
+							
+						</div>
+						<div class="figure">
+						</div>						
+					</div>
+				
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>1950s</h2>
+					</div>
+				</div>
+				
+				<div class="features">	
+				
+					<div class="entry" id="morodovian-latvian">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1950</p>
+								<img src="pieces/morodovian-latvian.png" class="chessmen" alt="A cartoon of Morodovia-Latvian chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Morodovian-Latvian</h2>
+							
+							<p>Collector of Soviet chessmen Arlindo Vieira coined the name <em>Latvian</em> to refer to these pieces. Chuck Grau <a href="#footnotes" class="footnote increment" title="Grau, C. (2024). Urban Legend and the Not Very 'Latvian' Set. Soviet and Late Tsarist Chess Sets blog.">identifies</a> that they more likely originated in the '40s-'50s in Mordovian gulags.</p>
+
+							<p>These chessmen are slender and unweighted, but made stable with wide bases. The design received a resurgence in popularity after being featured in the final episode of <em>The Queen's Gambit</em>.</p>
+							
+						</div>
+						
+						<div class="figure">
+							<div>
+								<h3>"Harmon v Borgov"</h3>
+								<img src="figures/morodovian_taylor-joy.png" alt="Anya Taylor-Joy as Beth Harmon writes a move on a score sheet in front of a set of Morodovian-Latvian chessmen.">
+								<p>Anya Taylor-Joy as <a href="#footnotes" title="Still from The Queen's Gambit (2020). Copyright Netflix Inc." class="footnote increment">Beth Harmon.</a></p>
+							</div>
+						
+						</div>		
+						
+					</div>
+
+					<div class="entry" id="hungarian_staunton">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1950</p>
+								<img src="pieces/hungarian_staunton.png" class="chessmen" alt="A cartoon of Hungarian Staunton chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Hungarian Staunton</h2>
+							
+							<p>Chessmen of this style seem to descend from the <em>Staunton</em>-ised pieces used in the first Candidates tournament, held in 1950 in Budapest, although with some deviation: in most sets bishops' mitres (opposite-coloured, of course, in the Central European fashion) lack the groove seen in the sets used in the tournament. </p>
+							
+						</div>
+						
+						<div class="figure">
+							<div>
+								<img style="clip-path: inset(2% 0 2% 0);" src="figures/hungarian_boleslavsky.png" alt="A black and white photo of Isaac Boleslavsky, about to play a pawn move for black with a set of Hungarian chessmen. ">
+								<p><a href="#footnotes" title="Photo via Daniel Griffin (2019). Isaac Boleslavsky at the Budapest Candidates and in the match v. Bronstein, 1950. Dgriffinchess blog." class="footnote increment">Isaac Boleslavsky</a> at the inaugural 1950 Candidates in Budapest with Hungarian Staunton pattern pieces.</p>
+							</div>
+						
+						</div>		
+						
+					</div>
+					
+					<div class="entry" id="romanian_staunton">
+						<div class="pattern">
+							<div class="set">
+								<p class="date"></p>
+								<img src="pieces/romanian_staunton.png" class="chessmen" alt="A cartoon of Romanian Staunton chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Romanian Staunton</h2>
+							
+							<p>Romanian-pattern <em>Staunton</em> chessmen are very utilitarian, with no collars on pawns and the rooks lacking crenellations. Typical with Communist-era sets there is no religious imagery, and typical of Central European sets the bishops often have opposite-coloured heads. This sometimes includes the bishop's collar. </p>
+							
+						</div>
+						
+						<div class="figure">
+							<div>
+							</div>
+						
+						</div>		
+						
+					</div>
+					
+					<div class="entry" id="dubrovnik">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1950</p>
+								<img src="pieces/dubrovnik.png" class="chessmen" alt="A cartoon of Dubrovnik chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Dubrovnik</h2>
+							
+							<p>This utilitarian design, by Petar Poček, was commissioned for the 1950 Chess Olympiad held in Dubrovnik, Yugoslavia.</p>
+
+							<p>Dubrovnik pieces are unweighted: instead, they are especially stout with wide bases to keep them steady. Famously, they were Bobby Fischer's favourite design. Only a small number of sets were originally made, but they became highly sought-after. Updated versions, Dubrovnik II and Dubrovnik Minčeta, were designed and produced in the 1960s.</p>
+
+							<p>The knights have distinctive tucked-in heads. In common with other Communist-era sets, religious symbols like the cross on the king's crown or and groove in the bishop's mitre are missing. Bishops have opposite-coloured finials. Rooks have five merlons (parapets), to evoke the five-pointed star.</p>
+							
+						</div>
+						
+						<div class="figure">
+							<div>
+							<img src="figures/dubrovnik_fischer.png" alt="Bobby Fischer and Dubrovnik chessmen on the cover of Life magazine, 12 November 1971.">
+							<p>Bobby Fischer poses with Dubrovnik chessmen on the cover of Life magazine.</p>
+							</div>
+						</div>		
+					</div>
+					
+					<div class="entry" id="baku">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">1951</p>
+								<img src="pieces/baku.png" class="chessmen" alt="A cartoon of Baku chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Baku</h2>
+							
+							<p>Russian pieces known as <em>Baku</em> for their appearance in photos of the 29th USSR Chess Championship, 1961, which were held in Baku, modern day Azerbaijan. </p>
+							
+							<p><a href="#footnotes" title="Grau C. (2022) “Baku” Pieces from Leningrad Region’s Artel Drevprom. Soviet and Late Tsarist Chess Sets blog." class="footnote increment">Grau relates that Russian collector Sergey Kovalenko</a> has followed the paperwork back to 1953 for these pieces. I think they must date from earlier, however, as they appear in a photo of Isaac Boleslavsky and Semyon Furman helping David Bronstein to prepare, apparently for his World Championship match with Mikhail Botvinnik, dated 1951.</p>
+							
+						</div>
+						
+						<div class="figure">
+							<div>
+							<img src="figures/baku_bronstein.jpg" alt="Isaac Boleslavsky, Semyon Furman, and David Bronstein ruminate over a board of Baku chessmen.">
+							<p>Boleslavsky, Furman, and Bronstein (L-R) and Baku chessmen <a href="#footnotes" class="footnote increment" title="Photo from Bronstein's personal archive, as cited in Griffin D. (2020). Semyon Furman (1920-1978). Soviet Chess History blog.">in 1951</a>.</p>
+							<img src="figures/baku_tal.jpg" alt="Mikhail Tal and Bukhuti Gurgenidze sit at a chess board with Baku chessmen, mid-game. Their table is labelled with their names in Cyrillic. An adjudicator attends.">
+							<p><a href="#footnotes" title="Photo via Douglas Griffin." class="footnote increment">Mikhail Tal v. Bukhuti Gurgenidze</a> during the eleventh round of the 1961 USSSR Chess Championship. </p>
+							</div>
+						</div>		
+					</div>
+					
+					<div class="entry" id="universum">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">c. 1958</p>
+								<img src="pieces/universum.png" class="chessmen" alt="A cartoon of ANRI Universum chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Universum</h2>
+							
+							<p>The <em>Universum</em> or <em>Space Age</em> chessmen were produced by Italy's ANRI woodcarving company to a design by Arthur Elliot, a former Disney animator who had worked on Bambi.</p>
+							
+						</div>
+						
+						<div class="figure">
+						</div>		
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>1960s</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					
+					<div class="entry" id="berliner">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1960s</p>
+								<img src="pieces/berliner.png" class="chessmen" alt="A cartoon of Berliner chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Berliner</h2>
+							<p>Modernist German set. Sets like this were sold by, and may have been manufactured by, G Henke & Co.</p>
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+					
+					<div class="entry" id="alcoa">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1962</p>
+								<img src="pieces/alcoa.png" class="chessmen" alt="A cartoon of Alcoa chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Alcoa</h2>
+							<p>Extruded and anondised aluminium pieces designed by Austin Cox (1924-2015) for Alcoa Aluminum Co.</p>
+
+							<p>The simplified, elongate pieces resemble cutlery. Alcoa commissioned the sets, which came with a wall-mounting walnut display case, as gifts for their most valued customers, presumably more as an art piece than with the thought that they would be used.</p>
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+					
+					<div class="entry" id="makonde">
+						<div class="pattern">
+							<div class="set">
+							<p class="date"></p>
+								<img src="pieces/makonde.png" class="chessmen" alt="A cartoon of Makonde chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Makonde</h2>
+							<p>Striking figurative, bust-style chessmen carved by Makonde woodworkers of Tanzania and Mozambique.</p>
+
+							<p>In the <a href="#footnotes" title="British Museum accession Af1983,28.1-32." class="increment footnote">above set</a>, the human figures, except the bishops, have facial markings representative of Makonde scarification. Kings have fez-shaped crowns, à la colonial-era soldier uniforms. Queens with water pots. Knights are represented by giraffes instead of horses, and the rooks by Makonde buildings instead of castles. </p>
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/makonde_grain_silos.png" title="A child inspects three Makonde grain silos: round buildings with wicker walls and pointed thatched roofs, elevated from the ground on stacks of bricks.">
+							<p><a href="#footnotes" title="Photo Stichting Nationaal Museum van Wereldculturen." class="footnote increment">Makonde grain silos.</a></p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry" id="spanish_regency">
+						<div class="pattern">
+							<div class="set">
+							<p class="date"></p>
+								<img src="pieces/spanish_regency.png" class="chessmen" alt="A cartoon of Spanish Regency chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Spanish Regency</h2>
+							<p>Mid-century Spanish pattern that combines <em>Staunton</em> and <em>Regency</em>-style signifiers with more sturdy bases.</p>
+
+							<p>This pattern is sometimes referred to as just <em>Spanish</em>, although both <em>Spanish</em> and <em>Spanish Regency</em> may be ambiguous, as pieces with more traditional 18th C. <em>Regency</em> profile--with urn-shaped bases--were also being produced in Spain at this time.</p>
+
+							<p>Kings with flattened crowns, queens with bell-shaped or conic heads (a princess's hennin perhaps?) a la <em>Regency</em>. Bishops with cut mitres a la <em>Staunton</em>. Knights with stub-noses, apparently characteristic of Spanish <em>Staunton</em> sets also.</p>
+						</div>
+						<div class="figure">
+							<div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry" id="polish_kings">
+						<div class="pattern">
+							<div class="set">
+							<p class="date"></p>
+								<img src="pieces/polish_kings.png" class="chessmen" alt="A cartoon of Polish Kings chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Polish Kings</h2>
+							<p>A popular decorative design, with distinctive kings and queens and stylised crowns with opposite-coloured finials.</p>
+
+							<p>They often have geometric patterns burnt on in pokerwork, or painted on.</p>
+
+							<p>They seem to originate from <a href="https://wegiel-chess.pl/">Węgiel</a>, a Polish games manufacturer, which calls them variously the <em>Royal</em> and <em>King's</em> design, although many similiar clones from other companies are now available.</p>
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/polish_korchnoi.png" title="Victor Korchnoi ruminates over a position with Polish Kings chessmen.">
+							<p><a href="#footnotes" title="Photo via David McAllister, Korchnoi and the car. IRLchess." class="footnote increment">G.M. Korchnoi playing</a> with Polish Kings pieces.</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry" id="lanier_graham">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1966</p>
+								<img src="pieces/lanier_graham.png" class="chessmen" alt="A cartoon of Lanier Graham chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Lanier Graham</h2>
+							<p>These minimalist, abstract pieces from artist F. Lanier Graham are delightfully efficient and could be cut from a single piece of wood.</p>
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/lanier_graham_assembled.png" title="One side of the Lanier Graham pieces, interlocking so as to make a square.">
+							<p>The Lanier chessmen interlock and can be arranged into a rectangle. A whole set could be cut from two pieces of wood, one for each colour. </p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1972</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Fischer defeats Spassky at the 1972 World Chess Championship. </p>
+							
+							<p>A politically-charged, Cold War era game. Fischer's victory ended Soviet hegemony of chess, and it's no surprise that the Soviet Union would collapse a mere 19 years later.</p>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="odd">
+						<h2>1980s</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+
+					<div class="entry" id="olympic">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1980</p>
+								<img src="pieces/olympic.png" class="chessmen" alt="A cartoon of Olympic chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Olympic</h2>
+							<p>Chessmen to commemorate the 1980 Summer Olympics in Moscow. Mixed material peices, made of plastic with metal accents, with uniform wide bases and slender narrow necks.</p>
+
+							<p>Ukrainian chess collector <a href="#footnotes" class="increment footnote" title="Grau C. (2022). Aristocratic Olympians: The 1980 Minsk Olympic Set. Soviet and Late Tsarist Chess Sets blog blog.">Mykhailo Kovalenko related to Chuck Grau</a> that these were manufactured in Belarus (gold accents only) and Ukraine (gold or silver accents). A Ukrainian variant has doubled bases on the king and queen. </p>
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+					
+					<div class="entry" id="italian_mixed_material">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1980s?</p>
+								<img src="pieces/italian_mixed.png" class="chessmen" alt="A cartoon of Italian mixed material chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Italian mixed material</h2>
+							<p>A number of mixed-material designs, where metal bases and finials are connected by wooden or plastic shanks, popular among Italian manufacturers including Italfama and Dal Rossi.</p>
+							
+							<p>The metal bases and heads and vase-like stems reminds me of the silver and jade <a href="https://artsandculture.google.com/asset/faberg%C3%A9-kuropatkin-chess-set-board-and-case-karl-gustav-hjalmar-armfeldt/cQEtIZwdzEOYcQ">Fagerbé chess set</a>. </p>
+
+							<p>Italfama use this format--wooden stems with metal heads--for several different product lines distinguished by different styles of heads, which their distributors refer to as a "traditional Italian style". Alongside mixed-material sets, they make all-metal pieces with the same profiles. An Italfama all-metal set was used in the final scene of <em>X-Men: The Last Stand</em> (2006).</p>
+							
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/italfama_xmen.png" title="A set of metal Italfama pieces, brass versus dark metal, on an outdoors chess table.">
+							<p>Metal Italian pieces revealed villain Magneto had not completely lost his magnetism powers in the final moments of <a href="#footnotes" class="footnote increment" title="Copyright 2006 20th Century Fox."><em>X-Men: The Last Stand</em> (2006)</a>.</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry" id="seville">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">1987</p>
+								<img src="pieces/sevilla.png" class="chessmen" alt="A cartoon of Seville 87 chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Seville 87</h2>
+							<p>Seville in 1987 saw Garry Kasparov and Anatoly Karpov clash in the World Chess Championship. Spanish manufacturer Indajesa supplied the pieces for the games, with the unique rook design modelled on Seville's <em>Torre del Oro</em> commemorating the host city. </p> 
+							
+							<p>Indajesa later produced reproduction <em>Seville</em> sets with the same rook, but the rook is about all that everyone agrees on. There is some <a href="#footnotes" class="footnote increment" title="Some Chess.com discussion on the Seville set: THE SEVILLA SET ...That is not Sevilla set! and Spanish chess sets ...Seville 87">debate</a> over which is the correct knight: the rumour is that the set originally was concieved with typical Indajesa Spanish-style knights but the players themselves asked for the substitution with <a href="#chavet"><em>Chavet</em>-style</a> knights instead. The reproduction set came with the <em>Chavet</em>-style knights.</p>
+							
+							<p>On the other hand, the reproduction queen, typical Indajesan style, was certainly wrong, without prongs on her coronet or the orb finial as seen in photos.</p>
+							
+							<p>Fortunately, the reproduction of the rooks are accurate: the only debate there is whether the <em>Torre del Oro</em> rooks are charming or dreadful.</p>
+							
+							<p>The cartoon above shows the pieces as in photos of the games.</p>
+							
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/sevilla_karpov.png" title="A black and white photo of white Seville pieces in the opening stage of the game, Karpov's side in Karpov v Kasparov.">
+							<p>Photos of the Seville set as used in the 1987 championship show Chavet-style knights, queens with pronged coronet and orb finials, and the <em>Torre del Oro</em> rooks.</p>
+							</div>
+							<div>
+							<img src="figures/torre_del_oro.png" title="Photograph of the Torre del Oro, Seville. It is dodecagonal: five sides are visible, dotted with arched windows and arrow slits. A second smaller tower emerges from the top of the main tower, and a third, smaller tower with a golden dome emerges from that one. A woman on the tower is holding a Spanish flag open.">
+							<p>The <a href="#footnotes" title="Photo via Wikimedia Commons." class="footnote increment"><em>Torre del Oro</em></a>, or <em>Tower of Gold</em>, is a famous, historic watchtower in Seville. </p>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+			
+			<div class="period">
+				
+				<div class="label">
+					<div class="even">
+						<h2>21st Century</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+				
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">1997</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Deep Blue defeats Garry Kasparov</p>
+						</div>
+					</div>
+
+					<div class="entry" id="zagreb">
+						<div class="pattern">
+							<div class="set">
+								<p class="date">2003</p>
+								<img src="pieces/zagreb.png" class="chessmen" alt="A cartoon of Zagreb chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Zagreb 59</h2>
+							
+							<p>The <em>Zagreb</em> or <em>Zagreb 59</em> are popular <em>Staunton</em>-mode chessmen known for their uncomfortable-looking knights: horses heads with two ninety degree turns. </p>
+							
+							<p>From the name, one would think this design is based on the chessmen used in the 1959 Candidates tournament, held in Bled, Zagreb, and Belgrade. This appears to just be marketing: no photo of such pieces from the tournament have surfaced. Rather, photos and <a href="#footnotes" class="footnote increment" title="RTV SLO (1959). MEDNARODNI ŠAHOVSKI TURNIR NA BLEDU. Slovenia. Via EU Screen.">footage</a> from Bled show what appear to be <em>Dubrovnik</em>-pattern pieces.</p>
+							
+							<p>The <em>Zagreb</em> pattern appears to originate from Frank Camaratta's House of Staunton from the early '00s, which <a href="#footnotes" title="House of Staunton Zagreb '59 series (2003) as archived by web.archive.org." class="footnote increment">originally described them</a> as "accurate reproductions of one of the most popular chess sets used in the major International tournaments during the 1950s and 1960s" made "to commemorate that classic struggle [the 1959 tournament]". Nevertheless they are very popular, and other manufacturers have their own lines with similar broken-back knights under a variety of names like <em>Leningrad</em> or <em>Yugoslavian</em>. </p>
+							
+						</div>
+						
+						<div class="figure">
+						</div>		
+					</div>
+				
+					<div class="entry" id="world_championship">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">2013</p>
+								<img src="pieces/world_championship.png" class="chessmen" alt="A cartoon of World Championship chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>World Championship</h2>
+							<p>The <em>World Championship</em> set, designed by Daniel Well for the 2013 Candidates Tournament in London, is a glossy, minimalist reinterpretation of the <em>Staunton</em> pattern. It has also been called the <em>Pentagram</em> pattern after Well's design company.</p> 
+
+							<p>This pattern may be especially recognisable to those people who for some reason are more interested in playing chess, rather than collecting chess sets (or indeed, drawing them for an infographic), as it was with these chessmen Magnus Carlsen won the Candidates and defeated Viswanathan Anand to become World Chess Champion. </p>
+							
+						</div>
+						<div class="figure">
+							<div>
+							<img src="figures/world_championship_carlsen.png" title="Magnus Carlsen stares off into the distance while he reaches for the black pieces.">
+							<p>Magnus Carlsen with Well's chessmen at their first official outing, the <a href="#footnotes" title="Photo (c) Ray Morris-Hill." class="increment footnotes">2013 Candidates.</a></p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="entry" id="wobble_chess">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">2014</p>
+								<img src="pieces/wobble_chess.png" class="chessmen" alt="A cartoon of Wobble Chess chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Wobble Chess</h2>
+							<p>An art piece or a chess set? Each piece, wood on a chrome ball, functions like a weeble. Played on a special chessboard with concave squares, the pieces will jiggle about whenever moved.</p>
+
+							<p>Toronto company Umbra's <em>Wobble Chess</em> is intentionally impractical, so it is interesting that in the 19th C. German turner Schnmitthenner produced a line of self-righting chessmen where the same self-righting feature is intended to make chess more practical when played on the move. </p>
+							
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+							<div class="set">
+								<p class="date">2022</p>
+							</div>
+							<hr><span class="stopper"></span>
+							<p>Carlsen declines to defend his World Champion title.</p>
+						</div>
+					</div>
+					
+					<div class="entry" id="louis_vuitton">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">2024</p>
+								<img src="pieces/louis_vuitton.png" class="chessmen" alt="A cartoon of Louis Vuitton chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Louis Vuitton</h2>
+							<p>Musician Tyler Okonma's Daliesque melting and phallic chessmen, part of his Louis Vuitton collection, were divisively received. The Louis Vuitton Chess Box was priced at $18,800 USD at launch and billed in the fashion house's marketing as "a fun reinterpretation of the traditional chess game," and came with both chess pieces and a Louis Vuitton branded chessboard-cum-carry case. </p>
+							
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+					
+					<div class="entry" id="kindachess">
+						<div class="pattern">
+							<div class="set">
+							<p class="date">2024</p>
+								<img src="pieces/kindachess.png" class="chessmen" alt="A cartoon of Kindachess chessmen.">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2>Kindachess</h2>
+							<p>These pieces are one of a number of recent chessmen patterns resulting from the additive manufacturing revolution.</p>
+
+							<p>Designed by Cuibono, these pieces were 3D printed from bioplastic and sold to raise money to rebuild homes in Kharkiv, Ukraine, following the war in Ukraine. </p>
+							
+						</div>
+						<div class="figure">
+						</div>
+					</div>
+				
+				</div>
+				
+			</div>
+			
+			<!--
+			<div class="period">
+				
+				<div class="label">
+					<div class="first">
+						<h2>Era</h2>
+					</div>
+				</div>
+				
+				<div class="features">
+					
+					<div class="entry">
+						<div class="pattern">
+							<div class="set">
+							<p class="date"></p>
+								<img src="" class="chessmen" alt="">
+							</div>
+							<hr><span class="stopper"></span>
+							<h2></h2>
+							<p></p>
+						</div>
+						<div class="figure">
+						Figure
+						</div>
+					</div>
+					
+					<div class="entry">
+						<div class="fact">
+						
+						</div>
+					</div>
+					
+				</div>
+				
+			</div> -->
+
+		</section>
+		
+		
+		<section id="footnotes">
+			<p class="notice">"Heyesian", A visual history of chessmen v. 1.1.web Copyright 2024 Heyesian, all rights reserved.</p>
+		
+			<p>NB Dates are meant to be indicative of when such patterns began to appear. Once designed, a pattern may continue to have been produced for a long time, and some modern companies specialise in reproductions of antique or vintage chessmen.</p>
+
+			<p><em>Special gratitude owed to Crumiller's database of auction catalogues.</em></p>
+			
+			<p>Thanks to the redditors of <a href="https://www.reddit.com/r/chessporn">r/chessporn</a> for their encouragement and support.</p>
+
+			<h2>Further Reading:</h2>
+			<ul>
+				<li><a href="https://www.chess-collection.de/booksale"><span class="booktitle">On the Collecting of Chess Sets</span></a> (2022), Langer.</li>
+				<li><a href="https://aworldofchess.com/"><span class="booktitle">A World of Chess</span></a> (2017), Cazaux & Knowlton.</li>
+			</ul>
+			
+			<h2>Private collections and websites:</h2>
+			<ul>
+				<li><a href="http://history.chess.free.fr">Cazaux's website: <code>history.chess.free.fr</code></a></li>
+				<li><a href="http://chessantique.com">Crumiller's website: <code>chessantique.com</code></a></li>
+				<li><a href="http://sovietchesssets.com">Grau's website: <code>sovietchesssets.com</code></a></li>
+				<li><a href="http://schaak-museum.nl">van Reij's website: <code>schaak-museum.nl</code></a></li>
+				<li><a href="http://chess-museum.com">Lanier's website: <code>chess-museum.com</code></a></li>
+				<li><a href="http://chess-collection.de">Langer's website: <code>chess-collection.de</code></a></li>
+				<li><a href="http://chessantiquesonline.com">Rochford's website: <code>chessantiquesonline.com</code></a></li>
+			</ul>
+
+			<h2>Notes:</h2>
+			<ol>
+				<li>Harappa Museum. Pieces and "chessboard" photo Harappa Museum via Facebook.</li>
+				<li>Samarkand State Museum Reserve. Photo ACDF of Uzbekistan.</li>
+				<li>Photos Metropolitan Museum of Art, Bishop: <a href="https://www.metmuseum.org/art/collection/search/451770">64.262.1</a> Rook: <a href="https://www.metmuseum.org/art/collection/search/452619">1974.207</a></li>
+				<li>Photos Metropolitan Museum of Art, accessions <a href="https://www.metmuseum.org/art/collection/search/452204">1971.193a–ff</a> & <a href="https://www.metmuseum.org/art/collection/search/452222">1971.105.1</a></li>
+				<li>Regional Museum in Sandomierz. Photo Regional Museum in Sandomierz.</li> 
+				<li>Bibliothèque Nationale.</li>
+				<li>British Museum and National Museum of Scotland.</li>
+				<li>Copyright 2001 Warner Bro. Entertainment Inc.</li>
+				<li>Davidson, H A (1949). ch 3 <span class="booktitle">Female of the Species</span> in <span class="booktitle">A Short History of Chess</span>. Greenberg New York.</li> 
+				<li>Yalom, M (2004). ch 2, 7, 11 in <span class="booktitle">Birth of the Chess Queen: A History</span>. Rivers Oram Press</li>
+				<li><a href="https://www.treccani.it/vocabolario/rocco/">Ròcco</a>. Vocabolario on line. Treccani. [Italian]</li>
+				<li><a href="https://logeion.uchicago.edu/rocca">Rocca</a>. Du Cange.</li>
+				<li>Hollander, H (2017). <span class="booktitle"><a href="http://chess-museum.com/cyclopes-elephants-and-chess-rooks-by-hans-hollaumlnder.html">Cyclopes, Elephants and Chess Rooks</a></span>. [<a href="https://web.archive.org/web/20240712104304/http://www.chess-museum.com/cyclopes-elephants-and-chess-rooks-by-hans-hollaumlnder.html">archive link</a>] Originally published 2007 in Festscrhift for Götz Pochat.</li> 
+				<li>Ashmolean Museum, Oxford. Accession <a href="https://www.ashmolean.org/collections-online#/item/ash-object-731067">WA1947.191.229</a>.</li>
+				<li>Photo via <a href="https://commons.wikimedia.org/wiki/File:Edward_3rd_Lord_Windsor_and_his_family.jpg">Wikimedia Commons</a>.</li> 
+				<li>Rowbotham's manual as quoted in Thomas Wright (1859). <span class="booktitle">On domestic games an amusements in the Middle Ages</span>. The Art-Journal 5. [<a href="https://archive.org/details/artjournal1859lond/page/9/mode/2up">available on Archive.org</a>] (orthography modernised by author)</li>
+				<li>Photo via <a href="https://commons.wikimedia.org/wiki/File:The_Chess_Game_(Sofonisba_Anguissola)_1555_(4096x3236px).jpg">Wikimedia Commons</a>.</li>
+				<li>Rochford, D (2017). <span class="booktitle"><a href="chessantiquesonline.com/EE_Article1.html">What did 16th Century English chess sets look like?</a></span> Chess Collectors International [newsletter]. [<a href="https://web.archive.org/web/20240712104622/https://www.chessantiquesonline.com/EE_Article1.html">archive link</a>]</li> 
+				<li>Metropolitan Museum of Art accessions <a href="https://www.metmuseum.org/art/collection/search/202506">60.146a–p, aa–pp, q</a></li>
+				<li>Photo via <a href="https://commons.wikimedia.org/wiki/File:Antti_Fav%C3%A9n_-_Chess_Players.jpg">Wikimedia Commons</a>.</li> 
+				<li>Metropolitan Museum of Art accessions <a href="https://www.metmuseum.org/art/collection/search/200034">48.174.153a–p</a></li>
+				<li>Photo via <a href="https://www.christies.com/lot/julian-rossi-ashton-1851-1942-the-chess-game-4027637/?intObjectID=4027637&lid=1">Christie's</a>.</li>
+				<li>Garrick Coleman, <a href="http://www.antiquechess.co.uk/public/About.html">Note on the origins of Pulpit Chess Sets</a>.</li>
+				<li>Photo via <a href="https://commons.wikimedia.org/wiki/File:Lajos_Kolozsvary_Das_Schachspiel.jpg">Wikimedia Commons</a>.</li>
+				<li>In the collection of the Brooklyn Museum. Photo from <a href="https://www.brooklynmuseum.org/opencollection/objects/408">Brooklyn Museum</a>.</li>
+				<li>In the collection of the Potteries Museum & Art Gallery, Stoke-on-Trent. Photo via <a href="https://artuk.org/discover/artworks/the-chess-board-19730">Art UK</a>.</li>
+				<li>Langer H. <a href="https://www.chess-collection.de/newpage666f70d6">English Chess Set attributed to William Hallett, 1825-1850</a>. [<a href="https://web.archive.org/web/20240716115852/https://www.chess-collection.de/newpage666f70d6">archive link</a>] </li>
+				<li>Stamp, J. (2013). <a href="https://www.smithsonianmag.com/arts-culture/how-the-chess-set-got-its-look-and-feel-14299092/">How the Chess Set Got Its Look and Feel</a>. Smithsonian Magazine. [<a href="https://web.archive.org/web/20240716131520/https://www.smithsonianmag.com/arts-culture/how-the-chess-set-got-its-look-and-feel-14299092/">archive link</a>]</li>
+				<li>Fersht, A. (2018) <a href="https://www.britishchesssets.com/chess/index.html"><span class="booktitle">Jaques and British Chess Company Chess Sets</span></a>.‎ Kaissa Publications, Cambridge.</li>
+				<li>In the collection of the Metropolitan Museum of Art, accession <a href="https://www.metmuseum.org/art/collection/search/10813">81.14</a>. Photo via <a href="https://commons.wikimedia.org/wiki/File:The_Chess_Players_MET_DT1506.jpg">Wikimedia Commons</a>.</li>
+				<li>Lanier, N. (2018). <a href="http://www.chess-museum.com/check-or-czech---the-czech-club-pieces.html">Check or Czech? - the Czech Club Pieces</a>. Presented at the 18th CCI World Congress in Prague 2018. [<a href="https://web.archive.org/web/20240716141325/http://www.chess-museum.com/check-or-czech---the-czech-club-pieces.html">archive link</a>]</li>
+				<li>Photo from Chess Notes (1987) 6:1319 <a href="https://www.chesshistory.com/winter/extra/carlsbad.html">via E. Winter of Chesshistory.com</a> [<a href="https://web.archive.org/web/20240712104835/https://www.chesshistory.com/winter/extra/carlsbad.html">archive link</a>]</li>
+				<li>Langer & Seiersen (2023). <span class="booktitle"><a href="https://cdn.website-editor.net/s/ba06e7026c3548968ca7fdb82ad2b7f8/files/uploaded/Chess%2520Collector%2520Vol%2520XXXIII%2520No3%2520November%25202023%2520Knubbel.pdf?Expires=1723441161&Signature=Q2jDIdup45o0i99gXMJsTzXbndWc-BuIXHCjl8Z1rydYqPQXBB6O5gQcNFxZP4oAs-gYCcEZV7Ez5fzXZWBBj0YLOTogSbA5MtQmXZbk0C0d4lBLC0n4DMEbw4HuIQZpw8ZrqkOyqA-iWOKBH0Omt35uhEvhPA60hdGw4Sw4SrR1bLktwdH-Ml68afOwCpdsa46~eMJ32nNXKZG~WQsArsY9mMJjqqdez5ofvegbOuOkq9XtMCqkKLjDxVbkg3qxb4bMlpWdJQyOPb-Y2TrTrqzml~8IZiH4DtyVADHXmjcVb4czqL-QUhOnZ-SZFGy2RPF4sNb2IbuzoF6LfNrspg__&Key-Pair-Id=K2NXBXLF010TJW">The true origin of the 'Knubbel' sets</a></span>. Chess Collector 33(3).</li>
+				<li>The Chess Collective. <a href="https://www.youtube.com/watch?v=_Bs9uSDWWh8"><span class="booktitle">Chess Studies with Beautiful Chess Sets! -Chess Collector Hangout #3 (feat. Noshir Patel)</span></a>. Youtube.</li>
+				<li>Grau C. (2023). <a href="https://sovietchesssets.com/2023/03/22/1930s-poltava-artel-sport-culture-bell-bottom-set/">1930s Poltava Artel Sport & Culture Bell-Bottom Set</a>. Soviet and Late Tsarist Chess Sets blog. [<a href="http://web.archive.org/web/20240716153645/https://sovietchesssets.com/2023/03/22/1930s-poltava-artel-sport-culture-bell-bottom-set/">archive link</a>]</li>
+				<li>Photo via <a href="https://commons.wikimedia.org/wiki/File:%D0%A1%D0%B0%D0%BC%D0%BF%D1%81%D0%BE%D0%BD%D1%96%D1%97%D0%B2%D1%81%D1%8C%D0%BA%D0%B0_%D1%86%D0%B5%D1%80%D0%BA%D0%B2%D0%B0,_%D0%B2%D0%B5%D1%87%D1%96%D1%80.jpg">Wikimedia Commons</a>.</li>
+				<li>Lanier, N. (2016). <span class="booktitle"><a href="http://www.chess-museum.com/chess-piece-production-in-the-jura.html">Chess production in the Jura</a></span>. chess-museum.com [<a href="http://web.archive.org/web/20240721003331/http://www.chess-museum.com/chess-piece-production-in-the-jura.html">archive link</a>]</li>
+				<li>Langer H. <a href="https://www.chess-collection.de/newpage25"><span class="booktitle">German 'Bundesform' Chess Set (Habera), 1935-1945</span></a>.</li>
+				<li>List, L. (2016) <span class="booktitle">The 20th Century</span>, in <span class="booktitle">Rare and Beautiful Chess Sets of the World</span> (Ed: McLain, D. L.) Murray & Sorrell FUEL, London.</li>
+				<li>Grau, C. (2024). <a href="https://sovietchesssets.com/2024/02/19/urban-legend-and-the-not-very-latvian-set/"><span class="booktitle">Urban Legend and the Not Very 'Latvian' Set</span></a>. Soviet and Late Tsarist Chess Sets blog. [<a href="http://web.archive.org/web/20240716175709/https://sovietchesssets.com/2024/02/19/urban-legend-and-the-not-very-latvian-set/">archive link</a>]</li>
+				<li>Still from <span class="booktitle">The Queen's Gambit</span> (2020). Copyright Netflix Inc.</li> 
+				<li>Photo via Daniel Griffin (2019). <a href="https://dgriffinchess.wordpress.com/2019/06/14/boleslavsky-at-the-budapest-candidates-and-in-the-match-v-bronstein-1950/comment-page-1/"><span class="booktitle">Isaac Boleslavsky at the Budapest Candidates and in the match v. Bronstein, 1950</span></a>. Soviet Chess History blog.</li>
+				<li>Grau C. (2022) <span class="booktitle"><a href="https://sovietchesssets.com/2022/12/16/baku-pieces-from-leningrad-regions-artel-drevprom/">“Baku” Pieces from Leningrad Region’s Artel Drevprom.</a></span> Soviet and Late Tsarist Chess Sets blog. [<a href="http://web.archive.org/web/20240719214228/https://sovietchesssets.com/2022/12/16/baku-pieces-from-leningrad-regions-artel-drevprom/">archive link</a>]</li>
+				<li>Photo from Bronstein's personal archive, via Griffin D. (2020). <span class="booktitle"><a href="https://dgriffinchess.wordpress.com/2020/11/30/semyon-furman-1920-1978/">Semyon Furman (1920-1978)</a></span>. Soviet Chess History blog.</li>
+				<li>Photo via Douglas Griffin.</li>
+				<li>British Museum accession Af1983,28.1-32.</li> 
+				<li>Photo <a href="https://collectie.wereldmuseum.nl/default.aspx?ccid=290202#/query/36fe8d0e-fac5-4960-bc04-6009258c8afc">Stichting Nationaal Museum van Wereldculturen</a>.</li> 
+				<li>Photo via David McAllister, <a href="https://www.irlchess.com/2012/02/11/korchnoi-and-the-car/"><span class="booktitle">Korchnoi and the car.</span></a> IRLchess. [<a href="https://web.archive.org/web/20240712105216/https://www.irlchess.com/2012/02/11/korchnoi-and-the-car/">archive link</a>]</li>
+				<li>Grau C. (2022). <a href="https://sovietchesssets.com/2022/02/23/aristocratic-olympians-the-1980-minsk-olympic-set/"><span class="booktitle">Aristocratic Olympians: The 1980 Minsk Olympic Set</span></a>. Soviet and Late Tsarist Chess Sets blog. [<a href="http://web.archive.org/web/20240719103229/https://sovietchesssets.com/2022/02/23/aristocratic-olympians-the-1980-minsk-olympic-set/">archive link</a>]</li>
+				<li>Copyright 2006 20th Century Fox.</li>
+				<li>Some Chess.com discussion on the Seville set and its reproduction: <a href="https://www.chess.com/forum/view/chess-equipment/the-sevilla-set-that-is-not-sevilla-set">THE SEVILLA SET ...That is not Sevilla set!</a> and <a href="https://www.chess.com/forum/view/chess-equipment/spanish-chess-sets-seville-87">Spanish chess sets ...Seville 87</a>.</li>
+				<li>Photo via <a href="https://upload.wikimedia.org/wikipedia/commons/b/b2/Torre_del_Oro_flag_Seville_Spain.jpg">Wikimedia Commons</a>.</li>
+				<li>RTV SLO (1959). <a href="https://euscreen.eu/euscreen-collections/item.html?id=EUS_2308C7C86D13ADC6C547A262C385799F">MEDNARODNI ŠAHOVSKI TURNIR NA BLEDU</a>. Slovenia. Via EUScreen.</li>
+				<li>House of Staunton Zagreb '59 series (2003) as <a href="http://web.archive.org/web/20031208225937/http://www.houseofstaunton.com/Zagreb.html">archived by web.archive.org</a>.</li>
+				<li>Photo &copy; Ray Morris-Hill.</li>
+
+			</ol>
+		</section>
+
+
+		<!--- Progress bar --->
+		<div id="progress-bar" role="progressbar"></div>
+		<script>
+			// Feature detection for CSS animation-timeline support
+        if (!CSS.supports('animation-timeline: scroll()')) {
+            console.log("animation-timeline not supported, using JavaScript fallback.");
+            document.addEventListener("scroll", function() {
+                var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                var scrollPosition = window.scrollY;
+                var scrollPercent = scrollPosition / docHeight;
+                console.log(`Scroll Position: ${scrollPosition}, Scroll Percent: ${scrollPercent}`);
+                const progressBar = document.getElementById("progress-bar");
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${scrollPercent})`;
+                    console.log(`Transform set to: scaleX(${scrollPercent})`);
+                } else {
+                    console.error("Progress bar element not found.");
+                }
+            });
+        } else {
+            console.log("animation-timeline supported, using CSS animation.");
+        }		</script>
+
+
+
+	</body>
+	
+</html>
