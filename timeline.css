@@ -15,8 +15,8 @@
 body {
 	background-color: var(--palette-bg);
 	padding: 1%;
-	
 	counter-reset: footnote;
+	margin: 0;
 }
 
 body > p {
