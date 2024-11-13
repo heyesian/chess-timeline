@@ -54,7 +54,7 @@ h1, h2, h3 {
 	font-weight: 500;
 	/* better mobile 
 	font-size: 3.76vw; */
-	font-size: clamp(36pt,6vw,55pt);
+	font-size: clamp(25pt,5vw,55pt);
 	line-height: 1;
 	color: var(--palette-text);
 	
@@ -68,7 +68,7 @@ h2 {
 div.fact h3, div.fact h2 {
 	/* better mobile
 	font-size: 1.2vw; */
-	font-size: clamp(20pt,1.8vw,50pt);
+	font-size: clamp(15pt,1.8vw,45pt);
 	margin-bottom: 0;
 	font-style:;
 	text-align:left;
@@ -124,7 +124,7 @@ p, li, blockquote {
 	text-align: justify;
 	/* better mobile
 	font-size: 1.6vw; */
-	font-size: clamp(16pt,1.6vw,45pt);
+	font-size: clamp(13pt,1.6vw,45pt);
 }
 
 blockquote {
