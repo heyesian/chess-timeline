@@ -14,7 +14,8 @@
 
 body {
 	background-color: var(--palette-bg);
-	padding: 1%;
+	padding: 0;
+	margin: 0;
 	
 	counter-reset: footnote;
 }
@@ -242,7 +243,7 @@ div.pattern p.date, div.fact p.date {
 	/* font-size: 1.28vw;
 	better mobile */
 	
-	font-size: clamp(16pt,1.6vw,45pt);
+	font-size: clamp(12pt,1.6vw,25pt);
 	font-family: var(--date-text);
 	font-optical-sizing: auto;
 	font-weight: 400;
