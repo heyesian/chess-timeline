@@ -177,7 +177,7 @@ div.fact div.figure {
 	/* better mobile
 	font-size: 1.2vw; */
 	
-	font-size: clamp(16pt,1.6vw,45pt);
+	font-size: clamp(13pt,1.6vw,45pt);
 }
 
 .fact p em {
