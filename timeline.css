@@ -243,7 +243,7 @@ div.pattern p.date, div.fact p.date {
 	/* font-size: 1.28vw;
 	better mobile */
 	
-	font-size: clamp(12pt,1.6vw,25pt);
+	font-size: clamp(8pt,1.4vw,20pt);
 	font-family: var(--date-text);
 	font-optical-sizing: auto;
 	font-weight: 400;
