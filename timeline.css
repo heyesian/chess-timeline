@@ -15,8 +15,8 @@
 body {
 	background-color: var(--palette-bg);
 	padding: 1%;
+	
 	counter-reset: footnote;
-	margin: 0;
 }
 
 body > p {
@@ -40,7 +40,7 @@ span.booktitle {
 
 a {
 	color: var(--palette-text);
-	text-decoration: underline dotted 1px;
+	text-decoration: underline dotted 0.1vh;
 }
 
 p#version {
@@ -52,7 +52,9 @@ p#version {
 h1, h2, h3 {
 	font-family: var(--body-text);
 	font-weight: 500;
-	font-size: 3.76vw;
+	/* better mobile 
+	font-size: 3.76vw; */
+	font-size: clamp(36pt,6vw,55pt);
 	line-height: 1;
 	color: var(--palette-text);
 	
@@ -63,23 +65,26 @@ h2 {
 	text-align: right;
 }
 
+div.fact h3, div.fact h2 {
+	/* better mobile
+	font-size: 1.2vw; */
+	font-size: clamp(20pt,1.8vw,50pt);
+	margin-bottom: 0;
+	font-style:;
+	text-align:left;
+	margin-left: 3vw;
+	/*font-family: var(--date-text);*/
+	font-weight: 500;
+}
+
 div.fact h2 {
-	text-align: left; 
+	text-align: right; 
+	/*
 	font-weight: 700;
 	font-style: italic;
 	margin-left: 31%;
-	font-size: 1.6vw;
+	font-size: 1.6vw;*/
 	
-}
-
-div.fact h3 {
-	font-size: 1.2vw;
-	margin-bottom: 0;
-	font-style:italic;
-	text-align:left;
-	margin-left: 31%;
-	font-family: var(--date-text);
-	font-weight: 700;
 }
 
 div.entry h2 {
@@ -117,7 +122,9 @@ p, li, blockquote {
 	line-height: 1.2;
 	color: var(--palette-text);
 	text-align: justify;
-	font-size: 1.6vw;
+	/* better mobile
+	font-size: 1.6vw; */
+	font-size: clamp(16pt,1.6vw,45pt);
 }
 
 blockquote {
@@ -147,9 +154,10 @@ div.figure div p, div.fact div.figure p {
 	margin: 0;
 }
 
+/* better mobile
 div.figure div:first-child {
 	margin-top: 10vh;
-}
+} */
 
 div.fact div.figure {
 	width:33%;
@@ -161,11 +169,14 @@ div.fact div.figure {
 	margin-top: 0.5%;
 	margin-bottom: 1.5%;
 	
-	font-family: var(--date-text);
+	/*font-family: var(--date-text);*/
 }
 
 .fact p {
-	font-size: 1.2vw;
+	/* better mobile
+	font-size: 1.2vw; */
+	
+	font-size: clamp(16pt,1.6vw,45pt);
 }
 
 .fact p em {
@@ -173,7 +184,7 @@ div.fact div.figure {
 }
 
 .footnote {
-	text-decoration: underline dashed 1px;
+	text-decoration: underline dashed 0.1vh;
 }
 
 .increment {
@@ -216,14 +227,15 @@ div.even {
 	background-color: var(--palette-even);
 }
 
-div.pattern p {
+div.pattern p, div.fact p {
 	margin-left: 3vw;
 	margin-right: 1vw;
 }
 
+/*
 div.fact p {
 	margin-left: 31%;
-}
+} */
 
 div.pattern p.date, div.fact p.date {
 	margin:auto auto 0 1%;
@@ -303,7 +315,9 @@ div.aside {
 /* timeline structure CSS */
 
 #timeline {
-	width: 80vw;
+	/*width: 80vw;*/
+	/* better mobile support */
+	width: clamp(50%,100%,1000px);
 	display: flex;
 	flex-direction: column;
 }
@@ -337,22 +351,27 @@ div.entry {
 	
 	width:100%;
 	
+	/* better mobile 
 	display: flex;
-	flex-direction: row;
+	flex-direction: row; */
 }
 
 div.pattern {
-	flex: 0 0 67%;
+	/*flex: 0 0 67%;*/
 }
 
 div.figure {
-	flex: 0 0 33%;
 	display: flex;
+	/* flex: 0 0 33%;
 	flex-direction: column;
+	better mobile support */
+	flex-direction: row;
 	text-align: center;
 	align-items: center;
 	justify-content:center;
 }
+
+div.figure div { margin: 10px; }
 
 div.fact {
 	flex: 0 0 100%;
@@ -426,4 +445,40 @@ div.features h1 {
 	opacity: 0.6;
 	font-style: italic;
 	color: var(--palette-text);
+}
+
+/* expandable sections */
+
+.accordion > input[type="checkbox"] {
+  display: none;
+  }
+
+.accordion .accordion_content {
+  overflow-y: hidden;
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+.accordion > input[type="checkbox"]:checked ~ .accordion_content {
+  height: auto;
+  overflow: visible;
+}
+
+.accordion label {
+  display: block;
+}
+
+/* arrows */
+.accordion .handle label:after {
+  content: "\2335";
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: .58em;
+  vertical-align: middle;
+  transform: rotate(-90deg);
+}
+
+.accordion > input[type="checkbox"]:checked ~ .handle label:after {
+  transform: rotate(0deg);
 }
