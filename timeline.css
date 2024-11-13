@@ -146,12 +146,12 @@ section#footnotes h2, section#footnotes p, section#footnotes li {
 }
 
 div.figure div p, div.fact div.figure p {
-	font-size: clamp(12pt,1.2vw,25pt);
+	font-size: clamp(8pt,1.2vw,12pt);
 	text-align: left;
-	width: 20vw;
+	width: clamp(200px,30vw,60%);
 	line-height: 1.1;
 	font-weight: 300;
-	margin: 0;
+	margin: 0 auto;
 }
 
 /* better mobile
@@ -259,13 +259,14 @@ div.pattern p.date, div.fact p.date {
 
 img.chessmen {
 	/* width: 32.8vw;
-	better mobile */
-	width: clamp(50%,32.8vw,75%);
 	max-height: 16.8vw;
+	better mobile */
+	width: clamp(70%,32.8vw,75%);
+
 }
 
 .figure img {
-	width: 30vw;
+	width: clamp(200px,30vw,60%);
 }
 
 div.aside {
@@ -369,7 +370,7 @@ div.figure {
 	/* flex: 0 0 33%;
 	flex-direction: column;
 	better mobile support */
-	flex-direction: row;
+	flex-direction: column;
 	text-align: center;
 	align-items: center;
 	justify-content:center;
