@@ -488,3 +488,31 @@ div.features h1 {
 .accordion > input[type="checkbox"]:checked ~ .handle label:after {
   transform: rotate(0deg);
 }
+
+/* navigation */
+
+ol.navigation {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;	
+}
+
+ol.navigation li {
+	float: left;
+}
+
+ol.navigation li a {
+	display: block;
+	color: var(--palette-text);
+	background-color: inherit;
+	font-size: clamp(10pt,1.2vw,30pt);
+	text-decoration: none;
+	margin: 5px;
+	padding: 5px;
+	border: 0px #fff solid;
+	border-radius: 5px;
+}
+
+ol.navigation li a:hover {
+	background-color: var(--palette-timeline-alt);
+}
